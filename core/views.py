@@ -31,7 +31,7 @@ def banca_pendente(request):
 		}
 		list.append(defesas_dic)
 		context = {"trabalhos": trabalhos, "defesas": list}
-		template_name = 'trabalhos/banca_pendente.html'
+		template_name = 'core/banca_pendente.html'
 	return  render(request, template_name, context)
 
 def agendamento_pendente(request):
