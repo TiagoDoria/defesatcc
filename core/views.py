@@ -31,7 +31,7 @@ def banca_pendente(request):
 		}
 		list.append(defesas_dic)
 		context = {"trabalhos": trabalhos, "defesas": list}
-		template_name = 'core/banca_pendente.html'
+		template_name = 'trabalhos/banca_pendente.html'
 	return  render(request, template_name, context)
 
 def agendamento_pendente(request):
@@ -57,7 +57,7 @@ def agendamento_pendente(request):
 		}
 		list.append(defesas_dic)
 		context = {"trabalhos": trabalhos, "defesas": list}
-		template_name = 'core/agendamento_pendente.html'
+		template_name = 'trabalhos/agendamento_pendente.html'
 	return  render(request, template_name, context)
 
 def defesas_confirmadas(request):
@@ -83,5 +83,5 @@ def defesas_confirmadas(request):
 		}
 		list.append(defesas_dic)
 		context = {"trabalhos": trabalhos, "defesas": list}
-		template_name = 'core/defesa_confirmada.html'
+		template_name = 'trabalhos/defesa_confirmada.html'
 	return  render(request, template_name, context)
