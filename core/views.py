@@ -4,8 +4,8 @@ from trabalhos.models import Trabalhos, DefesaTrabalho
 
 @login_required
 def home(request):
-	template_nameHome = 'core/home.html'
-	return render(request, template_nameHome)
+	template_name = 'core/home.html'
+	return render(request, template_name)
 
 def banca_pendente(request):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
@@ -27,9 +27,9 @@ def banca_pendente(request):
 			'status': defesa.status,
 		}
 		list.append(defesas_dic)
-		contextBanca = {"trabalhos": trabalhos, "defesas": list}
-		template_nameBanca = 'core/banca_pendente.html'
-	return  render(request, template_nameBanca, contextBanca)
+		context = {"trabalhos": trabalhos, "defesas": list}
+		template_name = 'core/banca_pendente.html'
+	return  render(request, template_name, context)
 
 def agendamento_pendente(request):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
@@ -51,9 +51,9 @@ def agendamento_pendente(request):
 			'status': defesa.status,
 		}
 		list.append(defesas_dic)
-		contextAgendamento = {"trabalhos": trabalhos, "defesas": list}
-		template_nameAgendamento = 'core/agendamento_pendente.html'
-	return  render(request, template_nameAgendamento, contextAgendamento)
+		context = {"trabalhos": trabalhos, "defesas": list}
+		template_name = 'core/agendamento_pendente.html'
+	return  render(request, template_name, context)
 
 def defesas_confirmadas(request):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
@@ -75,6 +75,6 @@ def defesas_confirmadas(request):
 			'status': defesa.status,
 		}
 		list.append(defesas_dic)
-		contextDefesas = {"trabalhos": trabalhos, "defesas": list}
-		template_nameDefesa = 'core/defesas_confirmadas.html'
-	return  render(request, template_nameDefesa, contextDefesas)
+		context = {"trabalhos": trabalhos, "defesas": list}
+		template_name = 'core/defesa_confirmada.html'
+	return  render(request, template_name, context)
