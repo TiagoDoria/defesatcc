@@ -68,7 +68,7 @@
             {% if user.perfil.descricao == 'Professor' %}
             <a class="collapse-item" href="{% url 'trabalhos:cadastrar_trabalho'%}">Cadastrar TCC</a>
             {% endif %}
-            <a class="collapse-item" href="{% url 'core:bancas_pendentes' %}">Bancas Pendentes</a>
+            <a class="collapse-item" href="{% url 'core:banca_pendente' %}">Bancas Pendentes</a>
             <a class="collapse-item" href="{% url 'core:agendamentos_pendentes' %}">Agendamento Pendente</a>
             <a class="collapse-item" href="{% url 'core:defesas_confirmadas' %}">Defesas Confirmadas</a>
           </div>
