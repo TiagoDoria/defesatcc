@@ -4,12 +4,15 @@ from trabalhos.models import Trabalhos, DefesaTrabalho
 
 @login_required
 def home(request):
+	template_name = None
 	template_name = 'core/home.html'
 	return render(request, template_name)
 
 def banca_pendente(request):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
 	defesas = DefesaTrabalho.objects.all()
+	template_name = None
+	context = None
 	list = []
 	for defesa in defesas:
 		avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
@@ -34,6 +37,8 @@ def banca_pendente(request):
 def agendamento_pendente(request):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
 	defesas = DefesaTrabalho.objects.all()
+	template_name = None
+	context = None
 	list = []
 	for defesa in defesas:
 		avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
@@ -59,6 +64,8 @@ def defesas_confirmadas(request):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
 	defesas = DefesaTrabalho.objects.all()
 	list = []
+	template_name = None
+	context = None
 	for defesa in defesas:
 		avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
 		lista = []
