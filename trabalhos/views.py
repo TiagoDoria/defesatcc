@@ -341,7 +341,7 @@ def banca_trabalho(request, pk):
     else:
         return redirect('core:home')
 
-def banca_pendente(request):
+def banca_pendente(request,key=None):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
 	defesas = DefesaTrabalho.objects.all()
 	template_name = None
