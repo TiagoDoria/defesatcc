@@ -369,7 +369,6 @@ def banca_pendente(request,key=None):
 def agendamento_pendente(request):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
 	defesas = DefesaTrabalho.objects.all()
-	template_name = None
 	context = None
 	list = []
 	for defesa in defesas:
@@ -396,7 +395,7 @@ def defesas_confirmadas(request):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
 	defesas = DefesaTrabalho.objects.all()
 	list = []
-	
+	template_name = 'trabalhos/defesa_confirmada.html'
 	context = None
 	for defesa in defesas:
 		avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
@@ -415,5 +414,4 @@ def defesas_confirmadas(request):
 		}
 		list.append(defesas_dic)
 		context = {"trabalhos": trabalhos, "defesas": list}
-
 	return  render(request, template_name, context)
