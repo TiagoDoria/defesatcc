@@ -341,10 +341,11 @@ def banca_trabalho(request, pk):
     else:
         return redirect('core:home')
 
-def banca_pendente(request):
+def banca_pendente(request,key=None):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
 	defesas = DefesaTrabalho.objects.all()
 	template_name = 'trabalhos/banca_pendente.html'
+	context = {}
 	list = []
 	for defesa in defesas:
 		avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
@@ -369,6 +370,7 @@ def agendamento_pendente(request,key=None):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
 	defesas = DefesaTrabalho.objects.all()
 	template_name = 'trabalhos/agendamento_pendente.html'
+	context = {}
 	list = []
 	for defesa in defesas:
 		avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
@@ -395,6 +397,7 @@ def defesas_confirmadas(request):
 	defesas = DefesaTrabalho.objects.all()
 	list = []
 	template_name = 'trabalhos/defesa_confirmada.html'
+	context = {}
 	for defesa in defesas:
 		avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
 		lista = []
