@@ -388,7 +388,7 @@ def agendamento_pendente(request,key=None):
 			'status': defesa.status,
 		}
 		list.append(defesas_dic)
-		context = {"trabalhos": trabalhos, "defesas": list}
+	context = {"trabalhos": trabalhos, "defesas": list}
 	return  render(request, template_name, context)
     
 
@@ -414,5 +414,5 @@ def defesas_confirmadas(request):
 			'status': defesa.status,
 		}
 		list.append(defesas_dic)
-		context = {"trabalhos": trabalhos, "defesas": list}
+	context = {"trabalhos": trabalhos, "defesas": list}
 	return  render(request, template_name, context)
