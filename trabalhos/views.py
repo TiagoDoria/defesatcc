@@ -8,13 +8,19 @@ from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages
 from wsgiref.util import FileWrapper
-
+from django.views.generic import CreateView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from core.mail import send_mail_template
 from core.utils import  generate_hash_key
 from django.conf import settings
+from easy_pdf.views import PDFTemplateView
+from datetime import date
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 from .models import Trabalhos, DefesaTrabalho, BancaTrabalho
 from .forms import TrabalhoForm, DefesaTrabalhoForm, TrabalhoBancaForm
@@ -416,3 +422,20 @@ def defesas_confirmadas(request):
 		list.append(defesas_dic)
 	context = {"trabalhos": trabalhos, "defesas": list}
 	return  render(request, template_name, context)
+    
+
+def html_to_pdf_view(request):
+    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
+    defesas = DefesaTrabalho.objects.all()
+    html_string = render_to_string('trabalhos/relatorios/relatorio_defesa.html', {'trabalhos': trabalhos, 'defesas': defesas})
+
+    html = HTML(string=html_string)
+    html.write_pdf(target='/tmp/mypdf.pdf');
+
+    fs = FileSystemStorage('/tmp')
+    with fs.open('mypdf.pdf') as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+        return response
+
+    return response

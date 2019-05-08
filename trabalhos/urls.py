@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^banca_pendente/ver$', views.banca_pendente, name='banca_pendente'),
     url(r'^agendamentos_pendentes/$', views.agendamento_pendente, name='agendamentos_pendentes'),
     url(r'^defesas_confirmadas/$', views.defesas_confirmadas, name='defesas_confirmadas'),
+    url(r'^relatorio_defesas/$', views.html_to_pdf_view, name='relatorio_defesas'),
 ]

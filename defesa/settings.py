@@ -164,7 +164,7 @@ LOGIN_REDIRECT_URL = 'core:home'
 LOGOUT_URL = 'accounts:logout'
 AUTH_USER_MODEL = 'accounts.Usuario'
 
-CONTACT_EMAIL = 'igor984@gmail.com'
+CONTACT_EMAIL = 'tiagodoriap@gmail.com'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

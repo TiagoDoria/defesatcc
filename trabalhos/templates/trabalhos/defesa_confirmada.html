@@ -410,20 +410,6 @@
                                                 {% endfor %}
                                             </td>
                                             <td>
-    
-                                                {% if user.id == defesa.trabalho.orientador.id %}
-                                                <a href="{% url 'trabalhos:cadastrar_agendamento_defesa' defesa.trabalho.id %}">
-                                                    <i class="material-icons tooltipped"
-                                                        data-position="top"
-                                                        data-tooltip="editar agendamento"
-                                                    >create</i>
-                                                </a>
-                                                <a href="{% url 'trabalhos:deletar_agendamento' defesa.id %}"
-                                                    data-messages="trabalho deletado com sucesso"
-                                                    class="delete-agendamento">
-                                                    <i class="material-icons">delete</i>
-                                                </a>
-                                                {% endif %}
                                                 {% if defesa.trabalho.pdf_trabalho %}
                                                 <a href="{{ defesa.trabalho.pdf_trabalho.url }}" target="_blank">
                                                     <i class="material-icons tooltipped"
@@ -431,8 +417,25 @@
                                                         data-tooltip="trabalho completo">picture_as_pdf</i>
                                                 </a>
                                                 {% endif %}
-                                               
-                                            </td>
+                                                {% if user.id == defesa.trabalho.orientador.id %}
+                                                <a href="{% url 'accounts:certificado_orientador' defesa.trabalho.id %}" target="_blank">
+                                                    <i class="material-icons tooltipped"
+                                                        data-position="top"
+                                                        data-tooltip="certificado de orientador"
+                                                        >insert_drive_file</i>
+                                                </a>
+                                                {% else %}
+                                                {% for banca in defesa.banca %}
+                                                {% if banca == user.name %}
+                                                <a href="{% url 'accounts:certificado_avaliador' defesa.trabalho.id user.id %}" target="_blank">
+                                                    <i class="material-icons tooltipped"
+                                                        data-position="top"
+                                                        data-tooltip="certificado de avaliador">insert_drive_file</i>
+                                                </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% endif %}
+                                        </td>
                                             
                                         </tr>
                                         {% endif %}
