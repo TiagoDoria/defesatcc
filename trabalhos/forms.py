@@ -40,9 +40,10 @@ class DefesaTrabalhoForm(forms.ModelForm):
 		model = DefesaTrabalho
 		exclude = ('status',)
 		widgets = {
-		 	'data': forms.TextInput(attrs={'class': 'datepicker'}),
-			'hora': forms.TextInput(attrs={'class': 'timepicker'}),
-			'trabalho': forms.Select(attrs={'disabled': 'disabled'})
+			'local': forms.TextInput(attrs={'class': 'form-control form-control-user'}),		
+		 	'data': forms.TextInput(attrs={'class': 'datepicker form-control form-control-user'}),
+			'hora': forms.TextInput(attrs={'class': 'timepicker form-control form-control-user'}),
+			'trabalho': forms.Select(attrs={'disabled': 'disabled','class': 'form-control form-control-user'})
 		}
 
 	# def clean(self):
