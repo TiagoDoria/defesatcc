@@ -37,7 +37,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">Finis</div>
             </a>
 
             <!-- Divider -->
@@ -366,8 +366,8 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Bancas Pendentes</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Gerar Relatório</a>
+                       <!--  <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Gerar Relatório</a> -->
                     </div>
 
                     <!-- DataTales Example -->
@@ -403,8 +403,7 @@
                                             <td>{{ trabalho.co_orientador }}</td>
                                             <td>
                                                 <a href="{% url 'trabalhos:detalhe' trabalho.id %}">
-                                                    <i class="material-icons tooltipped" data-position="top"
-                                                        data-tooltip="visualizar trabalho">visibility</i>
+                                                    <i class="fas fa-folder-open"></i>
                                                 </a>
                                                 {% if user.id != trabalho.orientador.id %}
                                                 <a href="{% url 'mensagem:email_participacao_banca' trabalho.id %}"
@@ -418,24 +417,19 @@
                                                 {% endif %}
                                                 {% if user.id == trabalho.orientador.id %}
                                                 <a href="{% url 'trabalhos:editar' trabalho.id %}">
-                                                    <i class="material-icons tooltipped" data-position="top"
-                                                        data-tooltip="editar trabalho">create</i>
+                                                    <i class="fas fa-pen"></i>
                                                 </a>
                                                 <a href="{% url 'trabalhos:deletar' trabalho.id %}"
                                                     data-messages="trabalho deletado com sucesso"
                                                     class=" delete-trabalho">
-                                                    <i class="material-icons">delete</i>
+                                                    <i class="fas fa-trash"></i>
                                                 </a>
                                                 <a href="{% url 'trabalhos:banca_trabalho' trabalho.id %}">
-                                                    <i class="material-icons tooltipped" data-position="top"
-                                                        data-tooltip="convidar banca avaliadora">
-                                                        people</i>
+                                                    <i class="fas fa-users"></i>
                                                 </a>
                                                 <a
                                                     href="{% url 'trabalhos:cadastrar_agendamento_defesa' trabalho.id %}">
-                                                    <i class="material-icons tooltipped" data-position="top"
-                                                        data-tooltip="agendar defesa">
-                                                        event_note</i>
+                                                    <i class="fas fa-calendar-alt"></i>
                                                 </a>
                                                 {% endif %}
                                                 {% if trabalho.pdf_trabalho %}

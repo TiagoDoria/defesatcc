@@ -37,7 +37,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">Finis</div>
             </a>
 
             <!-- Divider -->
@@ -412,17 +412,13 @@
                                             <td>
                                                 {% if defesa.trabalho.pdf_trabalho %}
                                                 <a href="{{ defesa.trabalho.pdf_trabalho.url }}" target="_blank">
-                                                    <i class="material-icons tooltipped"
-                                                        data-position="top"
-                                                        data-tooltip="trabalho completo">picture_as_pdf</i>
+                                                    <i class="fas fa-file-pdf"></i>
                                                 </a>
                                                 {% endif %}
                                                 {% if user.id == defesa.trabalho.orientador.id %}
                                                 <a href="{% url 'accounts:certificado_orientador' defesa.trabalho.id %}" target="_blank">
-                                                    <i class="material-icons tooltipped"
-                                                        data-position="top"
-                                                        data-tooltip="certificado de orientador"
-                                                        >insert_drive_file</i>
+                                                    
+                                                    <i class="fas fa-download"></i>
                                                 </a>
                                                 {% else %}
                                                 {% for banca in defesa.banca %}
