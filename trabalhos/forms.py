@@ -29,10 +29,20 @@ class TrabalhoBancaForm(forms.ModelForm):
 		label='Banca',
 		queryset=Usuario.objects.order_by('name')
 	)
+ 
 	class Meta:
 		model = Trabalhos
 		fields = ('banca',)
 
+class EditaTrabalhoForm(forms.ModelForm):
+	titulo = forms.CharField(label='Título',widget=forms.TextInput(attrs={'class':'form-control form-control-user'}))
+	keywords = forms.CharField(label='Palavas chaves',widget=forms.TextInput(attrs={'class':'form-control form-control-user'}))
+	autor = forms.CharField(label='Autor',widget=forms.TextInput(attrs={'class':'form-control form-control-user'}))
+	co_orientador = forms.CharField(label='Co-Orientador',widget=forms.TextInput(attrs={'class':'form-control form-control-user'}))
+	resumo = forms.CharField(label='Resumo',widget=forms.Textarea(attrs={'class':'form-control form-control-user'}))
+	class Meta:
+		model = Trabalhos
+		fields = ['titulo', 'keywords','autor','co_orientador','resumo']
 
 class DefesaTrabalhoForm(forms.ModelForm):
 

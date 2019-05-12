@@ -23,7 +23,7 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 
 from .models import Trabalhos, DefesaTrabalho, BancaTrabalho
-from .forms import TrabalhoForm, DefesaTrabalhoForm, TrabalhoBancaForm
+from .forms import TrabalhoForm, DefesaTrabalhoForm, TrabalhoBancaForm, EditaTrabalhoForm
 
 from mensagem.models import EmailParticipacaoBanca
 
@@ -65,15 +65,15 @@ class TrabalhoUpdateView(UpdateView):
     success_url = reverse_lazy(
         "core:home"
     )
-
-    fields = [
+    form_class = EditaTrabalhoForm
+    """  fields = [
         'titulo',
         'keywords',
         'autor',
         'co_orientador',
         'resumo',
         'pdf_trabalho'
-    ]
+    ] """
 
     def form_invalid(self, form):
         """
@@ -245,13 +245,13 @@ def defesatrabalho(request, pk):
         form_defesa = DefesaTrabalhoForm(initial={'trabalho': pk}, prefix='defesa')
 
     banca = BancaTrabalho.objects.filter(trabalho_id=pk)
-
+    menbros = banca.filter(status__contains='aceito')
     if banca:
         form = TrabalhoBancaForm(initial={'banca': banca.filter(status__contains='aceito').values_list('usuario', flat=True)}, prefix='banca')
     else:
         form = TrabalhoBancaForm(prefix='banca')
 
-    context = {'form': form, 'form_defesa': form_defesa, 'titulo': trabalho.titulo}
+    context = {'form': form, 'form_defesa': form_defesa, 'titulo': trabalho.titulo, 'bancas': menbros}
     return render(request, template_name, context)
 
 

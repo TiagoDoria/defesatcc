@@ -77,7 +77,13 @@ class EditaCadastroForm(forms.ModelForm):
 	# 	if queryset.exists():
 	# 		raise forms.ValidationError('Já existe usuario com este E-mail')
 	# 	return email
-
+	titulo = forms.ModelChoiceField(
+		label='Titulação', 
+		queryset=Titulo.objects.order_by('descricao'), 
+		widget=forms.Select(attrs={'class':'form-control form-control-user', 'placeholder':'Selecione'})
+	)
+	name = forms.CharField(label='Nome',widget=forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Nome'}))
+	email = forms.EmailField(label='E-mail', widget=forms.TextInput(attrs={'class':'form-control  form-control-user','placeholder':'E-mail'}))
 
 	class Meta:
 		model = Usuario
