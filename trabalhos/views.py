@@ -424,18 +424,81 @@ def defesas_confirmadas(request):
 	return  render(request, template_name, context)
     
 
-def html_to_pdf_view(request):
+def html_to_pdf_view_defesa(request):
     trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
     defesas = DefesaTrabalho.objects.all()
     html_string = render_to_string('trabalhos/relatorios/relatorio_defesa.html', {'trabalhos': trabalhos, 'defesas': defesas})
 
     html = HTML(string=html_string)
-    html.write_pdf(target='/tmp/mypdf.pdf');
+    html.write_pdf(target='/tmp/relatorio_defesa.pdf');
 
     fs = FileSystemStorage('/tmp')
-    with fs.open('mypdf.pdf') as pdf:
+    with fs.open('relatorio_defesa.pdf') as pdf:
         response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+        response['Content-Disposition'] = 'attachment; filename="relatorio_defesa.pdf"'
         return response
 
     return response
+
+def html_to_pdf_view_membro(request):
+    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
+    defesas = DefesaTrabalho.objects.filter(trabalho__orientador = request.user.id)
+    html_string = render_to_string('trabalhos/relatorios/relatorio_membro.html', {'trabalhos': trabalhos, 'defesas': defesas})
+
+    html = HTML(string=html_string)
+    html.write_pdf(target='/tmp/relatorio_membro.pdf');
+
+    fs = FileSystemStorage('/tmp')
+    with fs.open('relatorio_membro.pdf') as pdf:
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="relatorio_membro.pdf"'
+        return response
+
+    return response
+
+def relatorio_defesa(request):
+    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
+    defesas = DefesaTrabalho.objects.all()
+    list = []
+    template_name = 'trabalhos/relatorios/view_relatorio_defesa.html'
+    context = {}
+    for defesa in defesas:
+	    avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
+	    lista = []
+	    for avaliador in avaliadores:
+		    lista.append(avaliador.name)
+
+	    defesas_dic = {
+			'id': defesa.id,
+			'local': defesa.local,
+			'data': defesa.data,
+			'hora': defesa.hora,
+			'trabalho': defesa.trabalho,
+			'banca': lista,
+			'status': defesa.status,
+		}
+	    list.append(defesas_dic)
+    context = {"trabalhos": trabalhos, "defesas": list}
+    return  render(request, template_name, context)
+
+def relatorio_membro(request):
+    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
+    defesas = DefesaTrabalho.objects.filter(trabalho__orientador = request.user.id)
+    list = []
+    template_name = 'trabalhos/relatorios/view_relatorio_membro.html'
+    context = {}
+    for defesa in defesas:
+	    avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
+	    lista = []
+	    for avaliador in avaliadores:
+		    lista.append(avaliador.name)
+
+	    defesas_dic = {
+			'id': defesa.id,
+			'trabalho': defesa.trabalho,
+			'banca': lista,
+			'status': defesa.status,
+		}
+	    list.append(defesas_dic)
+    context = {"trabalhos": trabalhos, "defesas": list}
+    return  render(request, template_name, context)

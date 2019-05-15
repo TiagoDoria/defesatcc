@@ -14,5 +14,8 @@ urlpatterns = [
     url(r'^banca_pendente/ver$', views.banca_pendente, name='banca_pendente'),
     url(r'^agendamentos_pendentes/$', views.agendamento_pendente, name='agendamentos_pendentes'),
     url(r'^defesas_confirmadas/$', views.defesas_confirmadas, name='defesas_confirmadas'),
-    url(r'^relatorio_defesas/$', views.html_to_pdf_view, name='relatorio_defesas'),
+    url(r'^relatorio_defesas/$', views.relatorio_defesa, name='relatorio_defesas'),
+    url(r'^relatorio_membro/$', views.relatorio_membro, name='relatorio_membro'),
+    url(r'^download_relatorio_defesas/$', views.html_to_pdf_view_defesa, name='download_relatorio_defesas'),
+    url(r'^download_relatorio_membro/$', views.html_to_pdf_view_membro, name='download_relatorio_membro'),
 ]
