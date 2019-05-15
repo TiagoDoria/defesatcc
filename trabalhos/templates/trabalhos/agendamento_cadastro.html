@@ -90,8 +90,10 @@
                     {% if user.perfil.descricao == 'Professor' %}
                     <a class="collapse-item" href="{% url 'trabalhos:relatorio_membro'%}">Bancas por Membro</a>
                     {% endif %}
+                    {% if user.perfil.descricao == 'Coordenador' %}
                     <a class="collapse-item" href="utilities-animation.html">Relação de Bancas</a>
                     <a class="collapse-item" href="utilities-other.html">Quantidade de defesas</a>
+                    {% endif %}
                 </div>
                 </div>
             </li>

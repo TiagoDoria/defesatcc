@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, SetP
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+
 from django.conf import settings
 from django.views.generic import CreateView
 from django.views.generic.edit import UpdateView

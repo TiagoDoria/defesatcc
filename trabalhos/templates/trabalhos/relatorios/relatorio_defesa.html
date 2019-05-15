@@ -85,7 +85,7 @@
                           <td>CC</td>
                           <td>{{ defesa.trabalho.orientador }}</td>
                           <td>{% for banca in defesa.banca %}
-                                <li>{{ banca }}</li>
+                                {{ banca }} |
                             {% endfor %}</td>
                           <td>{{ defesa.data }}</td>
                         </tr>

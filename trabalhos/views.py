@@ -21,7 +21,8 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
-
+from django.utils.decorators import method_decorator
+from accounts.decorators import acesso, valida_perfil
 from .models import Trabalhos, DefesaTrabalho, BancaTrabalho
 from .forms import TrabalhoForm, DefesaTrabalhoForm, TrabalhoBancaForm, EditaTrabalhoForm
 
@@ -425,37 +426,73 @@ def defesas_confirmadas(request):
     
 
 def html_to_pdf_view_defesa(request):
-    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
-    defesas = DefesaTrabalho.objects.all()
-    html_string = render_to_string('trabalhos/relatorios/relatorio_defesa.html', {'trabalhos': trabalhos, 'defesas': defesas})
+    if(request.user.perfil.descricao == "Coordenador"):
+        trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
+        defesas = DefesaTrabalho.objects.all()
+        list = []
+        for defesa in defesas:
+            avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
+            lista = []
+            for avaliador in avaliadores:
+                lista.append(avaliador.name)
 
-    html = HTML(string=html_string)
-    html.write_pdf(target='/tmp/relatorio_defesa.pdf');
+            defesas_dic = {
+                'id': defesa.id,
+                'local': defesa.local,
+                'data': defesa.data,
+                'hora': defesa.hora,
+                'trabalho': defesa.trabalho,
+                'banca': lista,
+                'status': defesa.status,
+            }
+            list.append(defesas_dic)
+        html_string = render_to_string('trabalhos/relatorios/relatorio_defesa.html', {'trabalhos': trabalhos, 'defesas': list})
 
-    fs = FileSystemStorage('/tmp')
-    with fs.open('relatorio_defesa.pdf') as pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="relatorio_defesa.pdf"'
+        html = HTML(string=html_string)
+        html.write_pdf(target='/tmp/relatorio_defesa.pdf');
+
+        fs = FileSystemStorage('/tmp')
+        with fs.open('relatorio_defesa.pdf') as pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="relatorio_defesa.pdf"'
+            return response
+
         return response
-
-    return response
+    else:
+        return redirect('core:home')
 
 def html_to_pdf_view_membro(request):
-    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
-    defesas = DefesaTrabalho.objects.filter(trabalho__orientador = request.user.id)
-    html_string = render_to_string('trabalhos/relatorios/relatorio_membro.html', {'trabalhos': trabalhos, 'defesas': defesas})
+    if(request.user.perfil.descricao == "Professor"):
+        trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
+        defesas = DefesaTrabalho.objects.filter(trabalho__orientador = request.user.id)
+        list = []
+        for defesa in defesas:
+            avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
+            lista = []
+            for avaliador in avaliadores:
+                lista.append(avaliador.name)
 
-    html = HTML(string=html_string)
-    html.write_pdf(target='/tmp/relatorio_membro.pdf');
+            defesas_dic = {
+                'id': defesa.id,
+                'trabalho': defesa.trabalho,
+                'banca': lista,
+                'status': defesa.status,
+            }
+            list.append(defesas_dic)
+        html_string = render_to_string('trabalhos/relatorios/relatorio_membro.html', {'trabalhos': trabalhos, 'defesas': list})
 
-    fs = FileSystemStorage('/tmp')
-    with fs.open('relatorio_membro.pdf') as pdf:
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="relatorio_membro.pdf"'
+        html = HTML(string=html_string)
+        html.write_pdf(target='/tmp/relatorio_membro.pdf');
+
+        fs = FileSystemStorage('/tmp')
+        with fs.open('relatorio_membro.pdf') as pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="relatorio_membro.pdf"'
+            return response
+
         return response
-
-    return response
-
+    else:
+        return redirect('core:home')
 def relatorio_defesa(request):
     trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
     defesas = DefesaTrabalho.objects.all()
@@ -479,7 +516,10 @@ def relatorio_defesa(request):
 		}
 	    list.append(defesas_dic)
     context = {"trabalhos": trabalhos, "defesas": list}
-    return  render(request, template_name, context)
+    if(request.user.perfil.descricao == "Coordenador"):
+        return  render(request, template_name, context)
+    else:
+        return redirect('core:home')
 
 def relatorio_membro(request):
     trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
@@ -501,4 +541,7 @@ def relatorio_membro(request):
 		}
 	    list.append(defesas_dic)
     context = {"trabalhos": trabalhos, "defesas": list}
-    return  render(request, template_name, context)
+    if(request.user.perfil.descricao == "Professor"):
+        return  render(request, template_name, context)
+    else:
+        return redirect('core:home')
