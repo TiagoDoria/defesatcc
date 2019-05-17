@@ -21,19 +21,19 @@ class LoginForm(forms.ModelForm):
 		fields = ['username', 'password1']
 
 class CadastroForm(forms.ModelForm):
-	username = forms.CharField(label='Usuário',widget=forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Usuário'}))
+	username = forms.EmailField(label='E-mail',widget=forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Usuário'}))
 	name = forms.CharField(label='Nome',widget=forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Nome'}))
 	titulo = forms.ModelChoiceField(
 		label='Titulação', 
 		queryset=Titulo.objects.order_by('descricao'), 
-		widget=forms.Select(attrs={'class':'form-control form-control-user', 'placeholder':'Selecione'})
+		widget=forms.Select(attrs={'class':'form-control', 'placeholder':'Selecione'})
 	)
 	perfil = forms.ModelChoiceField(
 		label='Perfil',
-		queryset=Perfil.objects.exclude(descricao='Coordenador').order_by('descricao'),
-		widget=forms.Select(attrs={'class': 'form-control form-control-user', 'placeholder': 'Selecione'})
+		queryset=Perfil.objects.order_by('descricao'),
+		widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Selecione'})
 	)
-	email = forms.EmailField(label='E-mail', widget=forms.TextInput(attrs={'class':'form-control  form-control-user','placeholder':'E-mail'}))
+	#email = forms.EmailField(label='E-mail', widget=forms.TextInput(attrs={'class':'form-control  form-control-user','placeholder':'E-mail'}))
 
 	password1 = forms.CharField(label='Senha', widget=forms.PasswordInput(attrs={'class':'form-control form-control-user', 'placeholder': 'Senha'}))
 
@@ -62,7 +62,7 @@ class CadastroForm(forms.ModelForm):
 
 	class Meta:
 		model = Usuario
-		fields = ['username', 'name', 'email']	
+		fields = ['username', 'name']	
 
 
 class EditaCadastroForm(forms.ModelForm):
@@ -83,11 +83,11 @@ class EditaCadastroForm(forms.ModelForm):
 		widget=forms.Select(attrs={'class':'form-control form-control-user', 'placeholder':'Selecione'})
 	)
 	name = forms.CharField(label='Nome',widget=forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Nome'}))
-	email = forms.EmailField(label='E-mail', widget=forms.TextInput(attrs={'class':'form-control  form-control-user','placeholder':'E-mail'}))
+	username = forms.EmailField(label='E-mail', widget=forms.TextInput(attrs={'class':'form-control  form-control-user','placeholder':'E-mail'}))
 
 	class Meta:
 		model = Usuario
-		fields = ['titulo', 'name', 'email']
+		fields = ['titulo', 'name','username']
 
 
 class ResetSenhaForm(forms.Form):

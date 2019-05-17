@@ -80,7 +80,7 @@ def reset_senha(request):
 	form = ResetSenhaForm(request.POST or None)
 	context = {}
 	if form.is_valid():
-		user = Usuario.objects.get(email=form.cleaned_data['email'])
+		user = Usuario.objects.get(username=form.cleaned_data['username'])
 		key = generate_hash_key(user.username)
 		reset = NovaSenha(key=key, user=user)
 		reset.save()
@@ -88,7 +88,7 @@ def reset_senha(request):
 		template_name = 'accounts/reset_senha_mail.html'
 		subject = 'Criar nova Senha no Defesas Ufba'
 		context = { 'reset': reset, 'base_url': base_url}
-		send_mail_template(subject, template_name, context, [user.email])
+		send_mail_template(subject, template_name, context, [user.username])
 		context['success'] = True
 
 		return redirect('accounts:login')

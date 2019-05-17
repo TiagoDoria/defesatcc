@@ -67,14 +67,10 @@ class Perfil(models.Model):
 @python_2_unicode_compatible
 class Usuario(AbstractBaseUser, PermissionsMixin):
 
-	username = models.CharField(
-		'Nome do Usuário', max_length=30, unique=True,
-		validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'),
-			'o nome de usuário só pode conter letras, digitos os os seguintes caracteres @ . + - _', 'invalid')]
-	)
+	username = models.EmailField('E-mail', unique=True)
 	titulo = models.ForeignKey(Titulo, verbose_name='Titulação', related_name='titulo')
 	perfil = models.ForeignKey(Perfil, verbose_name='Perfil', related_name='perfil')
-	email = models.EmailField('E-mail', unique=True)
+	#email = models.EmailField('E-mail', unique=True)
 	name = models.CharField('Nome', max_length=200)
 	is_active = models.BooleanField('Está ativo?', blank=True, default=True)
 	is_staff = models.BooleanField('É admin', blank=True, default=False)
@@ -83,7 +79,6 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 	objects = UserManager()
 
 	USERNAME_FIELD = 'username'
-	REQUIRED_FIELDS = ['email']
 
 	def __str__(self):
 		return self.name
