@@ -25,7 +25,7 @@ from django.utils.decorators import method_decorator
 from accounts.decorators import acesso, valida_perfil
 from .models import Trabalhos, DefesaTrabalho, BancaTrabalho
 from .forms import TrabalhoForm, DefesaTrabalhoForm, TrabalhoBancaForm, EditaTrabalhoForm
-
+from datetime import datetime
 from mensagem.models import EmailParticipacaoBanca
 
 def cadastrar_trabalho(request, key=None):
@@ -162,7 +162,7 @@ def defesatrabalho(request, pk):
         else:
             subject = 'Convite para compor a banca avaliadora do trabalho ' + defesa.trabalho.titulo
         context = {'defesa': defesa, 'base_url': base_url, 'key': key}
-        send_mail_template(subject, template_name, context, [user.email], request.user.email)
+        send_mail_template(subject, template_name, context, [user.username], request.user.username)
 
 
 
@@ -241,6 +241,8 @@ def defesatrabalho(request, pk):
         form_defesa = DefesaTrabalhoForm(initial={'local': defesa[0].local,
                                                     'data': defesa[0].data.strftime('%d/%m/%Y'),
                                                     'hora': defesa[0].hora.strftime('%H:%M'),
+                                                    'ano': defesa[0].ano,
+                                                    'semestre': defesa[0].semestre,
                                                     'trabalho': pk}, prefix='defesa')
     else:
         form_defesa = DefesaTrabalhoForm(initial={'trabalho': pk}, prefix='defesa')
@@ -365,6 +367,8 @@ def banca_pendente(request,key=None):
 			'local': defesa.local,
 			'data': defesa.data,
 			'hora': defesa.hora,
+            'ano': defesa.ano,
+            'semestre': defesa.semestre,
 			'trabalho': defesa.trabalho,
 			'banca': lista,
 			'status': defesa.status,
@@ -390,6 +394,8 @@ def agendamento_pendente(request,key=None):
 			'local': defesa.local,
 			'data': defesa.data,
 			'hora': defesa.hora,
+            'ano': defesa.ano,
+            'semestre': defesa.semestre,
 			'trabalho': defesa.trabalho,
 			'banca': lista,
 			'status': defesa.status,
@@ -416,6 +422,8 @@ def defesas_confirmadas(request):
 			'local': defesa.local,
 			'data': defesa.data,
 			'hora': defesa.hora,
+            'ano': defesa.ano,
+            'semestre': defesa.semestre,
 			'trabalho': defesa.trabalho,
 			'banca': lista,
 			'status': defesa.status,
@@ -441,6 +449,8 @@ def html_to_pdf_view_defesa(request):
                 'local': defesa.local,
                 'data': defesa.data,
                 'hora': defesa.hora,
+                'ano': defesa.ano,
+                'semestre': defesa.semestre,
                 'trabalho': defesa.trabalho,
                 'banca': lista,
                 'status': defesa.status,
@@ -510,6 +520,8 @@ def relatorio_defesa(request):
 			'local': defesa.local,
 			'data': defesa.data,
 			'hora': defesa.hora,
+            'ano': defesa.ano,
+            'semestre': defesa.semestre,
 			'trabalho': defesa.trabalho,
 			'banca': lista,
 			'status': defesa.status,

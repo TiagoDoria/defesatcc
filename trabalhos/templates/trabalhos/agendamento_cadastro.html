@@ -395,20 +395,25 @@
                                     {{ field }}
                                     <br />
                                 {% endfor %}
+                                {% for field in form %}
+                                    <label class="mylabel">{{ field.label }}</label>
+                                    {{ field }}
+                                    <br />
+                                {% endfor %}
                                <!--  {% for field in form %}
                                     <label class="mylabel">{{ field.label }}</label>
                                     {{ field }}
                                     <br />
                                     <br />
                                 {% endfor %} -->
-                                <label class="mylabel">Banca</label>
+                              <!--   <label class="mylabel">Banca</label>
                                 <br />
                                 <select class="selectpicker" name="banca" id="banca" multiple title="Selecione a banca">
                                     {% for field in form %}
                                     <option >{{ field }}</option>
                                     {% endfor %}
                                 </select>
-                                <br />
+                                <br /> -->
                                 <br />
                                 <div class="row">
                                     <div class="input-field col s12">
