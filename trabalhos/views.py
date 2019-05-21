@@ -27,6 +27,7 @@ from .models import Trabalhos, DefesaTrabalho, BancaTrabalho
 from .forms import TrabalhoForm, DefesaTrabalhoForm, TrabalhoBancaForm, EditaTrabalhoForm
 from datetime import datetime
 from mensagem.models import EmailParticipacaoBanca
+from django.db.models import Count, Avg
 
 def cadastrar_trabalho(request, key=None):
     template_name = 'trabalhos/forms.html'
@@ -241,8 +242,7 @@ def defesatrabalho(request, pk):
         form_defesa = DefesaTrabalhoForm(initial={'local': defesa[0].local,
                                                     'data': defesa[0].data.strftime('%d/%m/%Y'),
                                                     'hora': defesa[0].hora.strftime('%H:%M'),
-                                                    'ano': defesa[0].ano,
-                                                    'semestre': defesa[0].semestre,
+                                                    'periodo': defesa[0].periodo,
                                                     'trabalho': pk}, prefix='defesa')
     else:
         form_defesa = DefesaTrabalhoForm(initial={'trabalho': pk}, prefix='defesa')
@@ -367,8 +367,7 @@ def banca_pendente(request,key=None):
 			'local': defesa.local,
 			'data': defesa.data,
 			'hora': defesa.hora,
-            'ano': defesa.ano,
-            'semestre': defesa.semestre,
+            'periodo': defesa.periodo,
 			'trabalho': defesa.trabalho,
 			'banca': lista,
 			'status': defesa.status,
@@ -394,8 +393,7 @@ def agendamento_pendente(request,key=None):
 			'local': defesa.local,
 			'data': defesa.data,
 			'hora': defesa.hora,
-            'ano': defesa.ano,
-            'semestre': defesa.semestre,
+            'periodo': defesa.periodo,
 			'trabalho': defesa.trabalho,
 			'banca': lista,
 			'status': defesa.status,
@@ -422,8 +420,7 @@ def defesas_confirmadas(request):
 			'local': defesa.local,
 			'data': defesa.data,
 			'hora': defesa.hora,
-            'ano': defesa.ano,
-            'semestre': defesa.semestre,
+            'periodo': defesa.periodo,
 			'trabalho': defesa.trabalho,
 			'banca': lista,
 			'status': defesa.status,
@@ -449,8 +446,7 @@ def html_to_pdf_view_defesa(request):
                 'local': defesa.local,
                 'data': defesa.data,
                 'hora': defesa.hora,
-                'ano': defesa.ano,
-                'semestre': defesa.semestre,
+                'periodo': defesa.periodo,
                 'trabalho': defesa.trabalho,
                 'banca': lista,
                 'status': defesa.status,
@@ -520,8 +516,7 @@ def relatorio_defesa(request):
 			'local': defesa.local,
 			'data': defesa.data,
 			'hora': defesa.hora,
-            'ano': defesa.ano,
-            'semestre': defesa.semestre,
+            'periodo': defesa.periodo,
 			'trabalho': defesa.trabalho,
 			'banca': lista,
 			'status': defesa.status,
@@ -554,6 +549,31 @@ def relatorio_membro(request):
 	    list.append(defesas_dic)
     context = {"trabalhos": trabalhos, "defesas": list}
     if(request.user.perfil.descricao == "Professor"):
+        return  render(request, template_name, context)
+    else:
+        return redirect('core:home')
+    
+def relatorio_quantidade(request):
+    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
+    defesas = DefesaTrabalho.objects.all()
+    p = DefesaTrabalho.objects.annotate(num=Count('periodo')).distinct()
+    list = []
+    template_name = 'trabalhos/relatorios/view_relatorio_quantidade.html'
+    context = {}
+    for defesa in defesas:
+	    avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
+	    lista = []
+	    for avaliador in avaliadores:
+		    lista.append(avaliador.name)
+
+	    defesas_dic = {
+			'id': defesa.id,
+            'periodo': defesa.periodo,
+			'status': defesa.status,
+		}
+	    list.append(defesas_dic)
+    context = {"trabalhos": trabalhos, "defesas": list, "p": p}
+    if(request.user.perfil.descricao == "Coordenador"):
         return  render(request, template_name, context)
     else:
         return redirect('core:home')

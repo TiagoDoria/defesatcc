@@ -38,8 +38,7 @@ class DefesaTrabalho(models.Model):
 	local = models.CharField('Local', max_length=250)
 	data = models.DateField('Data')
 	hora = models.TimeField('Horário')
-	ano = models.IntegerField('Ano')
-	semestre = models.IntegerField('Semestre')
+	periodo = models.CharField('Período', max_length=10)
 	trabalho = models.OneToOneField(Trabalhos, on_delete=models.CASCADE, verbose_name='trabalho')
 
 	status = models.CharField(

@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^confirmar-nova-senha/(?P<key>\w+)/$', views.reset_senha_confirm, name='reset_senha_confirm'),
     url(r'^certificado/orientador/(?P<pk>\d+)/$', views.CertificadoOrientadorPDFView.as_view(), name='certificado_orientador'),
     url(r'^certificado/avaliador/(?P<pk>\d+)/(?P<user_id>\d+)/$', views.CertificadoAvaliadorPDFView.as_view(), name='certificado_avaliador'),
+    url(r'^cadastrar-titulo$', views.cadastrar_titulo, name='cadastrar_titulo'),
+    url(r'^cadastrar-titulo$', views.cadastrar_titulo, name='cadastrar_titulo'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

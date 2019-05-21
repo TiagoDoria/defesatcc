@@ -53,8 +53,7 @@ class DefesaTrabalhoForm(forms.ModelForm):
 			'local': forms.TextInput(attrs={'class': 'form-control form-control-user'}),		
 		 	'data': forms.TextInput(attrs={'class': 'datepicker form-control form-control-user'}),
 			'hora': forms.TextInput(attrs={'class': 'timepicker form-control form-control-user'}),
-   			'ano': forms.TextInput(attrs={'class': 'form-control form-control-user'}),
-      		'semestre': forms.TextInput(attrs={'class': 'form-control form-control-user'}),
+      		'periodo': forms.TextInput(attrs={'class': 'form-control form-control-user'}),
 			'trabalho': forms.Select(attrs={'disabled': 'disabled','class': 'form-control form-control-user'})
 		}
 

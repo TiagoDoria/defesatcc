@@ -21,6 +21,7 @@
     <link href="{% static '/core/vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link rel="stylesheet" type="text/css" href="{% static '/core/css/admin.css' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     {% csrf_token %}
 </head>
 
@@ -33,7 +34,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -45,7 +46,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -68,9 +69,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Selecione:</h6>
-                        {% if user.perfil.descricao == 'Professor' %}
                         <a class="collapse-item" href="{% url 'trabalhos:cadastrar_trabalho'%}">Cadastrar TCC</a>
-                        {% endif %}
                         <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Bancas Pendentes</a>
                         <a class="collapse-item" href="{% url 'trabalhos:agendamentos_pendentes'%}">Agendamento Pendente</a>
                         <a class="collapse-item" href="{% url 'trabalhos:defesas_confirmadas'%}">Defesas Confirmadas</a>
@@ -93,12 +92,12 @@
                     {% endif %}
                     {% if user.perfil.descricao == 'Coordenador' %}
                     <a class="collapse-item" href="utilities-animation.html">Relação de Bancas</a>
-                    <a class="collapse-item" href="utilities-other.html">Quantidade de defesas</a>
+                    <a class="collapse-item" href="{% url 'trabalhos:relatorio_quantidade'%}">Quantidade de defesas</a>
                     {% endif %}
                 </div>
                 </div>
             </li>
-    
+
 
             <!-- Nav Item - Utilities Collapse Menu -->
            <!--  <li class="nav-item">
@@ -117,32 +116,18 @@
                         <a class="collapse-item" href="utilities-other.html">Other</a>
                     </div>
                 </div>
-            </li> -->
-
-             <!-- Divider -->
-            <hr class="sidebar-divider">
-            {% if user.perfil.descricao == 'Coordenador' %}
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Admin</span>
-                </a>
-                <div id="collapseThree" class="collapse" aria-labelledby="collapseThree" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Selecione:</h6>
-                    <a class="collapse-item" href="{% url 'accounts:cadastrar_titulo'%}">Cadastrar Título</a>
-                </div>
-                </div>
             </li>
-            {% endif %}
+ -->
+            <!-- Divider -->
+            <hr class="sidebar-divider">
 
             <!-- Heading -->
-            <!-- <div class="sidebar-heading">
+          <!--   <div class="sidebar-heading">
                 Addons
             </div> -->
 
             <!-- Nav Item - Pages Collapse Menu -->
-           <!--  <li class="nav-item">
+          <!--   <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-folder"></i>
@@ -163,14 +148,14 @@
             </li> -->
 
             <!-- Nav Item - Charts -->
-         <!--    <li class="nav-item">
+           <!--  <li class="nav-item">
                 <a class="nav-link" href="charts.html">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Charts</span></a>
             </li> -->
 
             <!-- Nav Item - Tables -->
-           <!--  <li class="nav-item">
+          <!--   <li class="nav-item">
                 <a class="nav-link" href="tables.html">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tables</span></a>
@@ -227,7 +212,7 @@
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
                                 aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
+                                <form enctype="multipart/form-data" class="form-inline mr-auto w-100 navbar-search">
                                     <div class="input-group">
                                         <input type="text" class="form-control bg-light border-0 small"
                                             placeholder="Search for..." aria-label="Search"
@@ -376,7 +361,7 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>
-                              <!--   <a class="dropdown-item" href="#">
+                               <!--  <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
@@ -397,65 +382,29 @@
 
                 </nav>
                 <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Relatório de defesas</h1>
-                        <a href="{% url 'trabalhos:download_relatorio_defesas'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Download</a>
+                <div class="container">
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Cadastrar Título</h1>
                     </div>
-
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                       
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                      <tr>
-                                        <th>TÍTULO</th>
-                                        <th>AUTOR</th>
-                                        <th>CURSO</th>
-                                        <th>ORIENTADOR</th>
-                                        <th>BANCA</th>
-                                        <th>DATA</th>
-                                      </tr>
-                                    </thead>
-                                    <tfoot>
-                                      <tr>
-                                          <th>TÍTULO</th>
-                                          <th>AUTOR</th>
-                                          <th>CURSO</th>
-                                          <th>ORIENTADOR</th>
-                                          <th>BANCA</th>
-                                          <th>DATA</th>
-                                      </tr>
-                                    </tfoot>
-                                    <tbody>
-                                      {% for defesa in defesas %}
-                                      {% if defesa.status != 'agendado' %}  
-                                      <tr>
-                                        <td>{{ defesa.trabalho.titulo }}</td>
-                                        <td>{{ defesa.trabalho.autor }}</td>
-                                        <td>CC</td>
-                                        <td>{{ defesa.trabalho.orientador }}</td>
-                                        <td>{% for banca in defesa.banca %}
-                                              {{ banca }} |
-                                          {% endfor %}</td>
-                                        <td>{{ defesa.data }}</td>
-                                      </tr>
-                                      {% endif %}
-                                      {% endfor %}
-                                    </tbody>
-                                  </table>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form  method="post">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    <label class="mylabel">{{ field.label }}</label>
+                                    {{ field }}
+                                    <br />
+                                {% endfor %}
+        
+                                <br />
+                                <button type="submit" class="btn btn-primary btn-user btn-block">Cadastrar</button>
+                                <hr>
+                                    
+                            </form>
                         </div>
                     </div>
+             
                 </div>
-                <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
@@ -507,7 +456,10 @@
 
     <!-- Core plugin JavaScript-->
     <script type="text/javascript" src="{% static 'core/js/jquery.easing.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>s
 
     <!-- Custom scripts for all pages-->
     <script type="text/javascript" src="{% static '/core/js/sb-admin-2.min.js' %}"></script>

@@ -25,7 +25,7 @@ from rest_framework import generics
 
 from core.utils import generate_hash_key
 
-from .forms import CadastroForm, LoginForm, EditaCadastroForm, ResetSenhaForm, PerfilForm
+from .forms import CadastroForm, LoginForm, EditaCadastroForm, ResetSenhaForm, PerfilForm, CadastroTitulo
 from .models import NovaSenha, Perfil
 from mensagem.models import  EmailParticipacaoBanca
 from mensagem.views import confirmada_participacao_banca
@@ -203,6 +203,23 @@ class CertificadoAvaliadorPDFView(PDFTemplateView):
 			**kwargs
 		)
 
-def teste(request):
-	template_name = 'accounts/teste.html'
-	return  render(request, template_name)
+def cadastrar_titulo(request, key=None):
+    if(request.user.perfil.descricao == "Coordenador"):
+        template_name = 'accounts/cadastrar_titulo.html'
+
+        if request.method == 'POST':
+            form = CadastroTitulo(request.POST)
+            if form.is_valid():
+                user = form.save()
+			
+                messages.success(request,'Título cadastrado com sucesso')
+                return redirect('core:home')
+        else:
+            form = CadastroTitulo()		
+        context = {
+			'form': form
+		}
+		
+        return render(request, template_name, context)
+    else:
+         return redirect('core:home')

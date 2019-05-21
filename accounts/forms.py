@@ -30,7 +30,7 @@ class CadastroForm(forms.ModelForm):
 	)
 	perfil = forms.ModelChoiceField(
 		label='Perfil',
-		queryset=Perfil.objects.order_by('descricao'),
+		queryset=Perfil.objects.exclude(descricao='Coordenador').order_by('descricao'),
 		widget=forms.Select(attrs={'class': 'form-control', 'placeholder': 'Selecione'})
 	)
 	#email = forms.EmailField(label='E-mail', widget=forms.TextInput(attrs={'class':'form-control  form-control-user','placeholder':'E-mail'}))
@@ -121,4 +121,17 @@ class PerfilForm(forms.ModelForm):
 		]
 
 
+class CadastroTitulo(forms.ModelForm):
+	descricao = forms.CharField(label='Descrição',widget=forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Descrição'}))
+	
+	def save(self, commit=True):
+		titulo = super(CadastroTitulo, self).save(commit=False)
+		titulo.descricao = self.cleaned_data['descricao']
+		if commit:
+			titulo.save()
+		return titulo	
+
+	class Meta:
+		model = Titulo
+		fields = ['descricao']	
 
