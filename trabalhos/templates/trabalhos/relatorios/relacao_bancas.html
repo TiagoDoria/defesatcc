@@ -24,9 +24,7 @@
     {% csrf_token %}
     <style>
     th, td {
-        padding: 30px;
-        padding-left: 30px;
-      
+        padding: 5px;
     }
 
     td {
@@ -50,7 +48,7 @@
               <!-- Page Heading -->
               <h2 class="text-center">Universidade Federal da Bahia</h2>
               <h2 class="text-center">Departamento de Ciência da Computação</h2>
-              <p class="text-center">Relatório de quantidade de defesas</p>
+              <p class="text-center">Relatório de relação por banca</p>
               <br />
     
               <!-- DataTales Example -->
@@ -60,30 +58,39 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                       <thead>
                         <tr>
-                          <th>PERÍODO</th>
-                          <th></th>
-                          <th>QUANTIDADE</th>
-                    
+                          <th>TÍTULO</th>
+                          <th>AUTOR</th>
+                          <th>CURSO</th>
+                          <th>ORIENTADOR</th>
+                          <th>BANCA</th>
+                          <th>DATA</th>
                         </tr>
                       </thead>
                       <tfoot>
                         <tr>
-                            <th>PERÍODO</th>
-                            <th></th>
-                            <th>QUANTIDADE</th>
-                            
+                            <th>TÍTULO</th>
+                            <th>AUTOR</th>
+                            <th>CURSO</th>
+                            <th>ORIENTADOR</th>
+                            <th>BANCA</th>
+                            <th>DATA</th>
                         </tr>
                       </tfoot>
                       <tbody>
-                          {% for defesa in p %}
-                          {% if defesa.status != 'agendado' %}  
-                          <tr>
-                            <td>{{ defesa.periodo }}</td>
-                            <td></td>
-                            <td>{{defesa.num}}</td>
-                          </tr>
-                          {% endif %}
-                          {% endfor %}
+                        {% for defesa in defesas %}
+                        {% if defesa.status != 'agendado' %}  
+                        <tr>
+                          <td>{{ defesa.trabalho.titulo }}</td>
+                          <td>{{ defesa.trabalho.autor }}</td>
+                          <td>CC</td>
+                          <td>{{ defesa.trabalho.orientador }}</td>
+                          <td>{% for banca in defesa.banca %}
+                                {{ banca }} |
+                            {% endfor %}</td>
+                          <td>{{ defesa.data }}</td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
                       </tbody>
                     </table>
                   </div>

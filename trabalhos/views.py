@@ -27,7 +27,7 @@ from .models import Trabalhos, DefesaTrabalho, BancaTrabalho
 from .forms import TrabalhoForm, DefesaTrabalhoForm, TrabalhoBancaForm, EditaTrabalhoForm
 from datetime import datetime
 from mensagem.models import EmailParticipacaoBanca
-from django.db.models import Count, Avg
+from django.db.models import Count, Avg, Sum
 
 def cadastrar_trabalho(request, key=None):
     template_name = 'trabalhos/forms.html'
@@ -556,7 +556,7 @@ def relatorio_membro(request):
 def relatorio_quantidade(request):
     trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
     defesas = DefesaTrabalho.objects.all()
-    p = DefesaTrabalho.objects.annotate(num=Count('periodo')).distinct()
+    p = DefesaTrabalho.objects.values('periodo').order_by('periodo').annotate(num=Count('periodo'))
     list = []
     template_name = 'trabalhos/relatorios/view_relatorio_quantidade.html'
     context = {}
@@ -573,6 +573,39 @@ def relatorio_quantidade(request):
 		}
 	    list.append(defesas_dic)
     context = {"trabalhos": trabalhos, "defesas": list, "p": p}
+    if(request.user.perfil.descricao == "Coordenador"):
+        return  render(request, template_name, context)
+    else:
+        return redirect('core:home')
+    
+def html_to_pdf_view_quantidade(request):
+    if(request.user.perfil.descricao == "Coordenador"):
+        p = DefesaTrabalho.objects.values('periodo').order_by('periodo').annotate(num=Count('periodo'))
+
+        html_string = render_to_string('trabalhos/relatorios/quantidade_defesa.html', {'p': p})
+
+        html = HTML(string=html_string)
+        html.write_pdf(target='/tmp/relatorio_quantidade.pdf');
+
+        fs = FileSystemStorage('/tmp')
+        with fs.open('relatorio_quantidade.pdf') as pdf:
+            response = HttpResponse(pdf, content_type='application/pdf')
+            response['Content-Disposition'] = 'attachment; filename="relatorio_quantidade.pdf"'
+            return response
+
+        return response
+    else:
+        return redirect('core:home')
+
+def relatorio_bancas(request):
+    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
+    defesas = DefesaTrabalho.objects.values('trabalho__orientador').order_by('trabalho__orientador').annotate(num=Count('trabalho__orientador'))
+    p = DefesaTrabalho.objects.values('periodo').order_by('periodo').annotate(num=Count('periodo'))
+    
+    template_name = 'trabalhos/relatorios/view_relacao_bancas.html'
+    context = {}
+    
+    context = {"trabalhos": trabalhos, "defesas": defesas}
     if(request.user.perfil.descricao == "Coordenador"):
         return  render(request, template_name, context)
     else:

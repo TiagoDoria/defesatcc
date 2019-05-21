@@ -91,7 +91,7 @@
             <a class="collapse-item" href="{% url 'trabalhos:relatorio_membro'%}">Bancas por Membro</a>
             {% endif %}
             {% if user.perfil.descricao == 'Coordenador' %}
-            <a class="collapse-item" href="utilities-animation.html">Relação de Bancas</a>
+            <a class="collapse-item" href="{% url 'trabalhos:relatorio_bancas'%}">Relação de Bancas</a>
             <a class="collapse-item" href="{% url 'trabalhos:relatorio_quantidade'%}">Quantidade de defesas</a>
             {% endif %}
           </div>

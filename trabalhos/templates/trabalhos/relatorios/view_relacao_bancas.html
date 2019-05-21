@@ -93,7 +93,7 @@
                     {% endif %}
                     {% if user.perfil.descricao == 'Coordenador' %}
                     <a class="collapse-item" href="utilities-animation.html">Relação de Bancas</a>
-                    <a class="collapse-item" href="{% url 'trabalhos:relatorio_quantidade'%}">Quantidade de defesas</a>
+                    <a class="collapse-item" href="utilities-other.html">Quantidade de defesas</a>
                     {% endif %}
                 </div>
                 </div>
@@ -312,11 +312,18 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{% url 'accounts:editar' user.id %}">
+                                <a class="dropdown-item" href="{% url 'accounts:editar' user.id %}>
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Perfil
                                 </a>
-                             
+                              <!--   <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Settings
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Activity Log
+                                </a> -->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{% url 'accounts:logout' %}" data-toggle="modal"
                                     data-target="#logoutModal">
@@ -336,8 +343,8 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Relatório de quantidade de defesas</h1>
-                        <a href="{% url 'trabalhos:download_relatorio_quantidade'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <h1 class="h3 mb-0 text-gray-800">Relatório de relação por banca</h1>
+                        <a href="{% url 'trabalhos:download_relatorio_membro'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Download</a>
                     </div>
 
@@ -349,22 +356,27 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                       <tr>
-                                        <th>PERÍODO</th>
+                                        <th>ORIENTADOR</th>
                                         <th>QUANTIDADE</th>
+                                        <th>MEMBRO DA BANCA</th>
                                       </tr>
                                     </thead>
                                     <tfoot>
                                       <tr>
-                                        <th>PERÍODO</th>
+                                        <th>ORIENTADOR</th>
                                         <th>QUANTIDADE</th>
+                                        <th>MEMBRO DA BANCA</th>
                                       </tr>
                                     </tfoot>
                                     <tbody>
-                                      {% for defesa in p %}
+                                      {% for defesa in defesas %}
                                       {% if defesa.status != 'agendado' %}  
                                       <tr>
-                                        <td>{{ defesa.periodo }}</td>
-                                        <td>{{defesa.num}}</td>
+                                        <td>{{ defesa.trabalho.titulo }}</td>
+                                        <td>{{ defesa.trabalho.autor }}</td>
+                                        <td>{% for banca in defesa.banca %}
+                                              {{ banca }} |
+                                          {% endfor %}</td>
                                       </tr>
                                       {% endif %}
                                       {% endfor %}
