@@ -211,13 +211,14 @@ def cadastrar_titulo(request, key=None):
             form = CadastroTitulo(request.POST)
             if form.is_valid():
                 user = form.save()
-			
+                tags = 'alert-success'
                 messages.success(request,'Título cadastrado com sucesso')
+                messages.tags = "alert-success"
                 return redirect('core:home')
         else:
             form = CadastroTitulo()		
         context = {
-			'form': form
+			'form': form,
 		}
 		
         return render(request, template_name, context)
