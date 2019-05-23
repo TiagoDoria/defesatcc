@@ -43,6 +43,7 @@ def meu_login(request):
 		user = authenticate(username=request.POST['username'], password=request.POST['password1'])
 		if user is not None:
 			login(request, user)
+			messages.success(request,'Bem-vindo!')
 			return redirect('core:home')
 		else:
 			messages.error(request,'login ou senha incorretos')
@@ -66,7 +67,7 @@ def cadastro(request, key=None):
 				confirmada_participacao_banca(request, key)
 
 			messages.success(request,'Usuário cadastrado com sucesso')
-			return redirect('core:home')
+			return redirect('accounts:login')
 	else:
 		form = CadastroForm()		
 	context = {

@@ -60,6 +60,11 @@ def detalhe(request, pk):
 
     return render(request, template_name, context)
 
+def deletar_trabalho(request, pk):
+    trabalhos = Trabalhos.objects.get(pk=pk)
+    trabalhos.delete()
+    messages.success(request, ("Trabalho deletado com sucesso"))
+    return redirect('trabalhos:banca_pendente')
 
 class TrabalhoUpdateView(UpdateView):
     template_name = 'trabalhos/editar.html'

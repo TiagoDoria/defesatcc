@@ -21,7 +21,7 @@ class LoginForm(forms.ModelForm):
 		fields = ['username', 'password1']
 
 class CadastroForm(forms.ModelForm):
-	username = forms.EmailField(label='E-mail',widget=forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Usuário'}))
+	username = forms.EmailField(label='E-mail',widget=forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'E-mail'}))
 	name = forms.CharField(label='Nome',widget=forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Nome'}))
 	titulo = forms.ModelChoiceField(
 		label='Titulação', 
