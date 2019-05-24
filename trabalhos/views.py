@@ -39,6 +39,7 @@ def cadastrar_trabalho(request, key=None):
         if form.is_valid():
             context['is_valid'] = True
             trabalho = form.save(commit=False)
+            trabalho.keywords = request.POST['keywords']
             trabalho.save()
             banca = BancaTrabalho.objects.create(usuario=request.user, trabalho=trabalho, status='aceito_pelo_orientador')
             banca.save()

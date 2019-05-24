@@ -14,10 +14,10 @@ class TrabalhoForm(forms.ModelForm):
 
 	class Meta:
 		model = Trabalhos
-		fields = ('titulo', 'keywords', 'autor', 'orientador', 'co_orientador', 'resumo', 'pdf_trabalho')
+		fields = ('titulo',  'autor', 'orientador', 'co_orientador', 'resumo', 'pdf_trabalho')
 		widgets = {
 			'titulo': forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Título'}),
-			'keywords': forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Palavras chaves'}),
+			#'keywords': forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Palavras chaves'}),
 			'autor': forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Autor'}),
 			'orientador': forms.Select(attrs={'class':'form-control','disabled': 'disabled'}),
 			'co_orientador': forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Co-Orientador'}),
