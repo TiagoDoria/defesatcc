@@ -25,14 +25,14 @@ class TrabalhoForm(forms.ModelForm):
 		}
 
 class TrabalhoBancaForm(forms.ModelForm):
-	banca = forms.ModelMultipleChoiceField(
+	""" banca = forms.ModelMultipleChoiceField(
 		label='Banca',
 		queryset=Usuario.objects.order_by('name')
-	)
+	) """
  
 	class Meta:
 		model = Trabalhos
-		fields = ('banca',)
+		fields = ()
 
 class EditaTrabalhoForm(forms.ModelForm):
 	titulo = forms.CharField(label='Título',widget=forms.TextInput(attrs={'class':'form-control form-control-user'}))
