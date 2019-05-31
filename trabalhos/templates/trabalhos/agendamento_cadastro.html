@@ -85,7 +85,7 @@
                         {% if user.perfil.descricao == 'Professor' %}
                         <a class="collapse-item" href="{% url 'trabalhos:cadastrar_trabalho'%}">Cadastrar TCC</a>
                         {% endif %}
-                        <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Bancas Pendentes</a>
+                        <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Listar TCC</a>
                         <a class="collapse-item" href="{% url 'trabalhos:agendamentos_pendentes'%}">Agendamento Pendente</a>
                         <a class="collapse-item" href="{% url 'trabalhos:defesas_confirmadas'%}">Defesas Confirmadas</a>
                     </div>
@@ -112,23 +112,6 @@
                 </div>
                 </div>
             </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-            {% if user.perfil.descricao == 'Coordenador' %}
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Admin</span>
-                </a>
-                <div id="collapseThree" class="collapse" aria-labelledby="collapseThree" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Selecione:</h6>
-                    <a class="collapse-item" href="{% url 'accounts:cadastrar_titulo'%}">Cadastrar Título</a>
-                </div>
-                </div>
-            </li>
-            {% endif %}
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -217,7 +200,7 @@
                 <!-- End of Topbar -->
                 <div class="container">
                     <div class="text-center">
-                        <h1 class="h4 text-gray-900 mb-4">Cadastrar Defesa</h1>
+                        <h1 class="h4 text-gray-900 mb-4">Agendar Defesa</h1>
                     </div>
                     <div class="row">
                         <div class="col-md-12">

@@ -114,7 +114,7 @@
                         {% if user.perfil.descricao == 'Professor' %}
                         <a class="collapse-item" href="{% url 'trabalhos:cadastrar_trabalho'%}">Cadastrar TCC</a>
                         {% endif %}
-                        <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Bancas Pendentes</a>
+                        <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Listar TCC</a>
                         <a class="collapse-item" href="{% url 'trabalhos:agendamentos_pendentes'%}">Agendamento Pendente</a>
                         <a class="collapse-item" href="{% url 'trabalhos:defesas_confirmadas'%}">Defesas Confirmadas</a>
                     </div>
@@ -139,25 +139,7 @@
                     {% endif %}
                 </div>
                 </div>
-            </li>
-
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-            {% if user.perfil.descricao == 'Coordenador' %}
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Admin</span>
-                </a>
-                <div id="collapseThree" class="collapse" aria-labelledby="collapseThree" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Selecione:</h6>
-                    <a class="collapse-item" href="{% url 'accounts:cadastrar_titulo'%}">Cadastrar Título</a>
-                </div>
-                </div>
-            </li>
-            {% endif %}
+            </li> 
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -249,7 +231,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Bancas Pendentes</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Trabalhos cadastrados</h1>
                      
                     </div>
 
@@ -285,8 +267,8 @@
                                             <td>{{ trabalho.orientador }}</td>
                                             <td>{{ trabalho.co_orientador }}</td>
                                             <td>
-                                                <a href="{% url 'trabalhos:detalhe' trabalho.id %}">
-                                                    <i class="fas fa-folder-open"></i>
+                                                <a  href="{% url 'trabalhos:detalhe' trabalho.id %}">
+                                                    <i data-toggle="tooltip" data-placement="top" title="Visualizar" class="fas fa-folder-open"></i>
                                                 </a>
                                                 {% if user.id != trabalho.orientador.id %}
                                                 <a href="{% url 'mensagem:email_participacao_banca' trabalho.id %}"
@@ -300,12 +282,12 @@
                                                 {% endif %}
                                                 {% if user.id == trabalho.orientador.id %}
                                                 <a href="{% url 'trabalhos:editar' trabalho.id %}">
-                                                    <i class="fas fa-pen"></i>
+                                                    <i data-toggle="tooltip" data-placement="top" title="Editar" class="fas fa-pen"></i>
                                                 </a>
                                                 <a href="{% url 'trabalhos:deletar' trabalho.id %}"
                                                 data-toggle="modal"
                                                 data-target="#deletarModal">
-                                                    <i class="fas fa-trash"></i>
+                                                    <i data-toggle="tooltip" data-placement="top" title="Excluir" class="fas fa-trash"></i>
                                                 </a>
                                                 <div class="modal fade" id="deletarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
@@ -326,7 +308,7 @@
                                                 </div>
                                                 <a
                                                     href="{% url 'trabalhos:cadastrar_agendamento_defesa' trabalho.id %}">
-                                                    <i class="fas fa-calendar-alt"></i>
+                                                    <i data-toggle="tooltip" data-placement="top" title="Agendar defesa" class="fas fa-calendar-alt"></i>
                                                 </a>
                                                 {% endif %}
                                                 {% if trabalho.pdf_trabalho %}
