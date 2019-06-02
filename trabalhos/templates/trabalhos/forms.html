@@ -171,7 +171,7 @@
                     <div class="row">
                         <div class="col-md-2"></div>
                         <div class="col-md-8">
-                            <form  method="post">
+                            <form method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {% for field in form %}
                                 <label class="mylabel">{{ field.label }}</label>
@@ -180,13 +180,22 @@
                                 {% endfor %}
                                 <label>Palavras Chaves</label>
                                 <input class="form-control form-control-user" name="keywords" id="keywords" data-role='tags-input' placeholder="Palavras chaves">
-                                <br />                               
+                                <br />
+                                <label>Trabalho em PDF</label>
+                                <br />
+                                <input class="form-control-user" type="file" name="pdf_trabalho" id="pdf_trabalho">
+                                <br />   
+                                <br />                            
                                 <button type="submit" class="btn btn-primary btn-user btn-block">Cadastrar</button>
-                                <hr>
-                                    
+                                <hr>              
                             </form>
                         </div>
                         <div class="cold-md-2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <a style="float:center;" class="btn btn-secondary btn-block col-md-4" href="{% url 'core:home' %}">Voltar</a>
+                        <div class="col-md-4"></div>
                     </div>
                 </div>
 

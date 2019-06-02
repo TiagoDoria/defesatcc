@@ -28,11 +28,12 @@ from .forms import TrabalhoForm, DefesaTrabalhoForm, TrabalhoBancaForm, EditaTra
 from datetime import datetime
 from mensagem.models import EmailParticipacaoBanca
 from django.db.models import Count, Avg, Sum
+from django.http import HttpResponseRedirect
 
-def cadastrar_trabalho(request, key=None):
+def cadastrar_trabalho(request):
     template_name = 'trabalhos/forms.html'
     context = {}
-    if request.method == 'POST':
+    if request.method == 'POST' and request.FILES['pdf_trabalho']:
         request.POST._mutable = True
         request.POST['orientador'] = request.user.id
         form = TrabalhoForm(request.POST, request.FILES)
@@ -40,6 +41,11 @@ def cadastrar_trabalho(request, key=None):
             context['is_valid'] = True
             trabalho = form.save(commit=False)
             trabalho.keywords = request.POST['keywords']
+            pdf_trabalho = request.FILES['pdf_trabalho']
+            fs = FileSystemStorage()
+            pdf_trabalho = fs.save(pdf_trabalho.name,pdf_trabalho)
+            uploaded_file_url = fs.url(pdf_trabalho)
+            trabalho.pdf_trabalho = uploaded_file_url
             trabalho.save()
             banca = BancaTrabalho.objects.create(usuario=request.user, trabalho=trabalho, status='aceito_pelo_orientador')
             banca.save()
@@ -357,18 +363,18 @@ def banca_trabalho(request, pk):
         return redirect('core:home')
 
 def banca_pendente(request,key=None):
-	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
-	defesas = DefesaTrabalho.objects.all()
-	template_name = 'trabalhos/banca_pendente.html'
-	context = {}
-	list = []
-	for defesa in defesas:
-		avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
-		lista = []
-		for avaliador in avaliadores:
-			lista.append(avaliador.name)
+    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
+    defesas = DefesaTrabalho.objects.all()
+    template_name = 'trabalhos/banca_pendente.html'
+    context = {}
+    list = []
+    for defesa in defesas:
+        avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
+        lista = []
+        for avaliador in avaliadores:
+            lista.append(avaliador.name)
 
-		defesas_dic = {
+        defesas_dic = {
 			'id': defesa.id,
 			'local': defesa.local,
 			'data': defesa.data,
@@ -378,9 +384,9 @@ def banca_pendente(request,key=None):
 			'banca': lista,
 			'status': defesa.status,
 		}
-		list.append(defesas_dic)
-	context = {"trabalhos": trabalhos, "defesas": list}
-	return  render(request, template_name, context)
+        list.append(defesas_dic)
+    context = {"trabalhos": trabalhos, "defesas": list}
+    return  render(request, template_name, context)
 
 def agendamento_pendente(request,key=None):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)

@@ -262,7 +262,7 @@
                                     <tbody>
                                         {% for trabalho in trabalhos %}
                                         <tr>
-                                            <td>{{ trabalho.titulo }}</td>
+                                           <td>{{ trabalho.titulo }}</td>
                                             <td>{{ trabalho.autor }}</td>
                                             <td>{{ trabalho.orientador }}</td>
                                             <td>{{ trabalho.co_orientador }}</td>
@@ -312,9 +312,8 @@
                                                 </a>
                                                 {% endif %}
                                                 {% if trabalho.pdf_trabalho %}
-                                                <a href="{{ trabalho.pdf_trabalho.url }}" target="_blank">
-                                                    <i class="material-icons tooltipped" data-position="top"
-                                                        data-tooltip="trabalho completo">picture_as_pdf</i>
+                                                <a href="{{ trabalho.pdf_trabalho }}" target="_blank">
+                                                    <i data-toggle="tooltip" data-placement="top" title="Trabalho PDF" class="fas fa-file"></i>
                                                 </a>
                                                 {% endif %}
                                             </td>

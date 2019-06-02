@@ -6,15 +6,9 @@ from accounts.models import Usuario
 
 
 class TrabalhoForm(forms.ModelForm):
-	""" titulo = forms.CharField(label='Título',widget=forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Título'}))
-	titulo = forms.CharField(label='Título',widget=forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Título'}))
 	class Meta:
 		model = Trabalhos
-		fields = ['titulo'] """
-
-	class Meta:
-		model = Trabalhos
-		fields = ('titulo',  'autor', 'orientador', 'co_orientador', 'resumo', 'pdf_trabalho')
+		fields = ('titulo',  'autor', 'orientador', 'co_orientador', 'resumo')
 		widgets = {
 			'titulo': forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Título'}),
 			#'keywords': forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Palavras chaves'}),
