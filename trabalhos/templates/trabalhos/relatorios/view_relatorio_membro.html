@@ -71,7 +71,7 @@
                         {% if user.perfil.descricao == 'Professor' %}
                         <a class="collapse-item" href="{% url 'trabalhos:cadastrar_trabalho'%}">Cadastrar TCC</a>
                         {% endif %}
-                        <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Bancas Pendentes</a>
+                        <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Listar TCCs</a>
                         <a class="collapse-item" href="{% url 'trabalhos:agendamentos_pendentes'%}">Agendamento Pendente</a>
                         <a class="collapse-item" href="{% url 'trabalhos:defesas_confirmadas'%}">Defesas Confirmadas</a>
                     </div>
@@ -181,10 +181,15 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <a style="float:left;" class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+                        <div class="sidebar-brand-icon">
+                            <h3><i data-toggle="tooltip" data-placement="top" height="30px" title="Voltar" class="far fa-arrow-alt-circle-left"></i></h3>
+                        </div>
+                    </a>   
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Relatório por membro</h1>
+                    <div style="padding-left: 20%;float: center;" class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="text-center h3 mb-0 text-gray-800">Relatório por membro</h1>
                         <a href="{% url 'trabalhos:download_relatorio_membro'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Download</a>
                     </div>

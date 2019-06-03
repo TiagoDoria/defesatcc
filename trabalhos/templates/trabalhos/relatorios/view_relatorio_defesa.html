@@ -33,7 +33,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -45,7 +45,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -71,7 +71,7 @@
                         {% if user.perfil.descricao == 'Professor' %}
                         <a class="collapse-item" href="{% url 'trabalhos:cadastrar_trabalho'%}">Cadastrar TCC</a>
                         {% endif %}
-                        <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Bancas Pendentes</a>
+                        <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Listar TCCs</a>
                         <a class="collapse-item" href="{% url 'trabalhos:agendamentos_pendentes'%}">Agendamento Pendente</a>
                         <a class="collapse-item" href="{% url 'trabalhos:defesas_confirmadas'%}">Defesas Confirmadas</a>
                     </div>
@@ -93,7 +93,7 @@
                     {% endif %}
                     {% if user.perfil.descricao == 'Coordenador' %}
                     <a class="collapse-item" href="utilities-animation.html">Relação de Bancas</a>
-                    <a class="collapse-item" href="utilities-other.html">Quantidade de defesas</a>
+                    <a class="collapse-item" href="{% url 'trabalhos:relatorio_quantidade'%}">Quantidade de defesas</a>
                     {% endif %}
                 </div>
                 </div>
@@ -162,11 +162,16 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <a style="float:left;" class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+                        <div class="sidebar-brand-icon">
+                            <h3><i data-toggle="tooltip" data-placement="top" height="30px" title="Voltar" class="far fa-arrow-alt-circle-left"></i></h3>
+                        </div>
+                    </a>   
 
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <div style="padding-left: 20%;float: center;" class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Relatório de defesas</h1>
-                        <a href="{% url 'trabalhos:download_relatorio_defesas'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a href="{% url 'trabalhos:download_relatorio_defesas'%}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Download</a>
                     </div>
 

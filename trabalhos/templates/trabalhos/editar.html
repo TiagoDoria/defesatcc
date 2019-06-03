@@ -91,7 +91,7 @@
                     {% endif %}
                     {% if user.perfil.descricao == 'Coordenador' %}
                     <a class="collapse-item" href="utilities-animation.html">Relação de Bancas</a>
-                    <a class="collapse-item" href="utilities-other.html">Quantidade de defesas</a>
+                    <a class="collapse-item" href="{% url 'trabalhos:relatorio_quantidade'%}">Quantidade de defesas</a>
                     {% endif %}
                 </div>
                 </div>
@@ -159,6 +159,11 @@
                 </nav>
                 <!-- End of Topbar -->
                 <div class="container">
+                    <a style="float:left;" class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'trabalhos:banca_pendente'%}">
+                        <div class="sidebar-brand-icon">
+                            <h3><i data-toggle="tooltip" data-placement="top" height="30px" title="Voltar" class="far fa-arrow-alt-circle-left"></i></h3>
+                        </div>
+                    </a>   
                     <div class="text-center">
                         <h1 class="h4 text-gray-900 mb-4">Editar - TCC</h1>
                     </div>
@@ -173,13 +178,16 @@
                                     <br />
                                     <br />
                                 {% endfor %}
-                                    
                                 <button type="submit" class="btn btn-primary btn-user btn-block">Editar</button>
                                 <hr>
-                                    
                             </form>
                         </div>
                         <div class="cold-md-2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <a style="float:center;" class="btn btn-secondary btn-block col-md-4" href="{% url 'trabalhos:banca_pendente'%}">Voltar</a>
+                        <div class="col-md-4"></div>
                     </div>
                 </div>
 

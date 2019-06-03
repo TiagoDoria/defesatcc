@@ -93,7 +93,7 @@
                     {% endif %}
                     {% if user.perfil.descricao == 'Coordenador' %}
                     <a class="collapse-item" href="utilities-animation.html">Relação de Bancas</a>
-                    <a class="collapse-item" href="utilities-other.html">Quantidade de defesas</a>
+                    <a class="collapse-item" href="{% url 'trabalhos:relatorio_quantidade'%}">Quantidade de defesas</a>
                     {% endif %}
                 </div>
                 </div>
@@ -164,9 +164,14 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                    <a style="float:left;" class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+                        <div class="sidebar-brand-icon">
+                            <h3><i data-toggle="tooltip" data-placement="top" height="30px" title="Voltar" class="far fa-arrow-alt-circle-left"></i></h3>
+                        </div>
+                    </a>   
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Defesas Confirmadas</h1>
+                    <div class="text-center">
+                        <h1 class="h4 text-gray-900 mb-4">Defesas Co nfirmadas</h1>
                     </div>
 
                     <!-- DataTales Example -->

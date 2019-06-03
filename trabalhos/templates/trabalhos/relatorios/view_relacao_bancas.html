@@ -71,7 +71,7 @@
                         {% if user.perfil.descricao == 'Professor' %}
                         <a class="collapse-item" href="{% url 'trabalhos:cadastrar_trabalho'%}">Cadastrar TCC</a>
                         {% endif %}
-                        <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Bancas Pendentes</a>
+                        <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Listar TCCs</a>
                         <a class="collapse-item" href="{% url 'trabalhos:agendamentos_pendentes'%}">Agendamento Pendente</a>
                         <a class="collapse-item" href="{% url 'trabalhos:defesas_confirmadas'%}">Defesas Confirmadas</a>
                     </div>

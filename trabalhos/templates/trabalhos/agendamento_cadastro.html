@@ -199,11 +199,17 @@
                 </nav>
                 <!-- End of Topbar -->
                 <div class="container">
+                    <a style="float:left;" class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'trabalhos:banca_pendente'%}">
+                        <div class="sidebar-brand-icon">
+                            <h3><i data-toggle="tooltip" data-placement="top" height="30px" title="Voltar" class="far fa-arrow-alt-circle-left"></i></h3>
+                        </div>
+                    </a>   
                     <div class="text-center">
                         <h1 class="h4 text-gray-900 mb-4">Agendar Defesa</h1>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
                             <form  method="post">
                                 {% csrf_token %}
                                 {% for field in form_defesa %}
@@ -243,6 +249,12 @@
                                     
                             </form>
                         </div>
+                        <div class="col-md-2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <a style="float:center;" class="btn btn-secondary btn-block col-md-4" href="{% url 'trabalhos:banca_pendente'%}">Voltar</a>
+                        <div class="col-md-4"></div>
                     </div>
              
                 </div>
