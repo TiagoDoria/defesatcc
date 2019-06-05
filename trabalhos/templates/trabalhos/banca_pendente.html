@@ -114,7 +114,7 @@
                         {% if user.perfil.descricao == 'Professor' %}
                         <a class="collapse-item" href="{% url 'trabalhos:cadastrar_trabalho'%}">Cadastrar TCC</a>
                         {% endif %}
-                        <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Listar TCC</a>
+                        <a class="collapse-item" href="{% url 'trabalhos:banca_pendente'%}">Listar Trabalhos</a>
                         <a class="collapse-item" href="{% url 'trabalhos:agendamentos_pendentes'%}">Agendamento Pendente</a>
                         <a class="collapse-item" href="{% url 'trabalhos:defesas_confirmadas'%}">Defesas Confirmadas</a>
                     </div>
@@ -278,9 +278,7 @@
                                                     data-messages="Sua solicitação para compor a banca avaliadora foi
                                                                             enviada com sucesso"
                                                     class="email-participacao-banca">
-                                                    <img class="circle cyan lighten-2 tooltipped" data-position="top"
-                                                        data-tooltip="candidatar-se a banca" id="enviar-email-banca"
-                                                        src="{% static 'core/images/icon-red.png' %}">
+                                                    <i data-toggle="tooltip" data-placement="top" title="Candidatar-se à Banca" class="far fa-list-alt"></i>
                                                 </a>
                                                 {% endif %}
                                                 {% if user.id == trabalho.orientador.id %}

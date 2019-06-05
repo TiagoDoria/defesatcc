@@ -211,13 +211,16 @@
                         <div class="col-md-2"></div>
                         <div class="col-md-8">
                             <form  method="post">
-                                {% csrf_token %}
-                                {% for field in form_defesa %}
-                                    <label class="mylabel">{{ field.label }}</label>
-                                    {{ field }}
-                                    <br />
-                                {% endfor %}
-                               
+                               {% csrf_token %}
+                               {% for field in form_defesa %}
+                                <div class="row">
+                                <label>{{field.label}}</label>
+                                {{field}}
+                                
+                                </div>
+                                <br />
+                                {% endfor %} 
+
                                 <label>Banca</label>
                                <!--  <div class="dropdown-sin-2">
                                     <select name="banca" id="banca" class="form-control form-control-user" style="display:none" multiple placeholder="Select">
@@ -226,13 +229,10 @@
                                         {% endfor %} 
                                     </select>
                                 </div> -->
-                                <div class="dropdown-sin-2">
-                                <select name="banca" id="banca" class="form-control form-control-user" style="display:none" multiple placeholder="Select">
-                                    {% for field in usuarios %}
-                                    <option value="{{field.usuario_id}}">{{ field }}</option>
-                                    {% endfor %}
+                                    {% for field in form %}
+                                    {{field}}
+                                    {% endfor %} 
                                 </select>
-                                </div>
                                 
                                 <br />
                                 <div class="row">
