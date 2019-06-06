@@ -267,7 +267,12 @@
                                         <tr>
                                            <td>{{ trabalho.titulo }}</td>
                                             <td>{{ trabalho.autor }}</td>
+                                            {% if user.perfil.descricao == 'Professor' %}
                                             <td>{{ trabalho.orientador }}</td>
+                                            {% endif %}
+                                            {% if user.perfil.descricao == 'Coordenador' %}
+                                            <td><a href="{% url 'trabalhos:relatorio_orientador' trabalho.orientador.id %}">{{ trabalho.orientador }}</a></td>
+                                            {% endif %}
                                             <td>{{ trabalho.co_orientador }}</td>
                                             <td>
                                                 <a  href="{% url 'trabalhos:detalhe' trabalho.id %}">

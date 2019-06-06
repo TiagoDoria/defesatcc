@@ -190,8 +190,10 @@
                     <!-- Page Heading -->
                     <div style="padding-left: 20%;float: center;" class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="text-center h3 mb-0 text-gray-800">Relatório por membro</h1>
+                        {% if user.id == trabalho.orientador.id %}
                         <a href="{% url 'trabalhos:download_relatorio_membro'%}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Download</a>
+                        {% endif %}    
                     </div>
 
                     <!-- DataTales Example -->

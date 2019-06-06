@@ -630,3 +630,28 @@ def relatorio_bancas(request):
         return  render(request, template_name, context)
     else:
         return redirect('core:home')
+    
+def relatorio_orientador(request, pk):
+    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
+    defesas = DefesaTrabalho.objects.filter(trabalho__orientador = pk)
+    list = []
+    template_name = 'trabalhos/relatorios/view_relatorio_membro.html'
+    context = {}
+    for defesa in defesas:
+	    avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
+	    lista = []
+	    for avaliador in avaliadores:
+		    lista.append(avaliador.name)
+
+	    defesas_dic = {
+			'id': defesa.id,
+			'trabalho': defesa.trabalho,
+			'banca': lista,
+			'status': defesa.status,
+		}
+	    list.append(defesas_dic)
+    context = {"trabalhos": trabalhos, "defesas": list}
+    if(request.user.perfil.descricao == "Coordenador"):
+        return  render(request, template_name, context)
+    else:
+        return redirect('core:home')
