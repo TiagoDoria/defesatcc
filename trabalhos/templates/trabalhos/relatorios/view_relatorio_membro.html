@@ -216,7 +216,7 @@
                                     </tfoot>
                                     <tbody>
                                       {% for defesa in defesas %}
-                                      {% if defesa.status != 'agendado' %}  
+                                      {% if defesa.status == 'agendado' %}  
                                       <tr>
                                         <td>{{ defesa.trabalho.titulo }}</td>
                                         <td>{{ defesa.trabalho.autor }}</td>

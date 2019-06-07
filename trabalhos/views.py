@@ -632,7 +632,7 @@ def relatorio_orientador(request, pk):
     trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
     defesas = DefesaTrabalho.objects.filter(trabalho__orientador = pk)
     list = []
-    template_name = 'trabalhos/relatorios/view_relatorio_membro.html'
+    template_name = 'trabalhos/view_professor.html'
     context = {}
     for defesa in defesas:
 	    avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
@@ -651,4 +651,4 @@ def relatorio_orientador(request, pk):
     if(request.user.perfil.descricao == "Coordenador"):
         return  render(request, template_name, context)
     else:
-        return redirect('core:home')
+        return redirect('trabalhos:home')
