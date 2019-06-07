@@ -23,16 +23,20 @@
     <link rel="stylesheet" type="text/css" href="{% static '/core/css/admin.css' %}" />
     {% csrf_token %}
     <style>
-    th, td {
-        padding: 30px;
-        padding-left: 30px;
-      
-    }
-
-    td {
-        padding-bottom: 10px;
-    }
-    </style>
+        table, td, th {  
+          border: 1px solid #ddd;
+          text-align: left;
+        }
+        
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        th, td {
+          padding: 15px;
+        }
+  </style>
 </head>
 
 <body id="page-top">
@@ -61,7 +65,6 @@
                       <thead>
                         <tr>
                           <th>PERÍODO</th>
-                          <th></th>
                           <th>QUANTIDADE</th>
                     
                         </tr>
@@ -69,17 +72,15 @@
                       <tfoot>
                         <tr>
                             <th>PERÍODO</th>
-                            <th></th>
                             <th>QUANTIDADE</th>
                             
                         </tr>
                       </tfoot>
                       <tbody>
                           {% for defesa in p %}
-                          {% if defesa.status != 'agendado' %}  
+                          {% if defesa.status == 'agendado' %}  
                           <tr>
                             <td>{{ defesa.periodo }}</td>
-                            <td></td>
                             <td>{{defesa.num}}</td>
                           </tr>
                           {% endif %}

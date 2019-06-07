@@ -23,14 +23,20 @@
     <link rel="stylesheet" type="text/css" href="{% static '/core/css/admin.css' %}" />
     {% csrf_token %}
     <style>
-    th, td {
-        padding: 5px;
-    }
-
-    td {
-        padding-bottom: 10px;
-    }
-    </style>
+        table, td, th {  
+          border: 1px solid #ddd;
+          text-align: left;
+        }
+        
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        th, td {
+          padding: 15px;
+        }
+        </style>
 </head>
 
 <body id="page-top">
@@ -49,6 +55,7 @@
               <h2 class="text-center">Universidade Federal da Bahia</h2>
               <h2 class="text-center">Departamento de Ciência da Computação</h2>
               <p class="text-center">Relatório de defesas</p>
+              <img src="/core/static/core/images/ufba.png" />
               <br />
     
               <!-- DataTales Example -->

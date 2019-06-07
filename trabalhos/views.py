@@ -178,23 +178,20 @@ def defesatrabalho(request, pk):
         send_mail_template(subject, template_name, context, [user.username], request.user.username)
 
 
-
     if request.method == 'POST':
         request.POST._mutable = True
         request.POST['defesa-trabalho'] = pk
         defesa = DefesaTrabalho.objects.filter(trabalho_id=pk)
         if defesa:
             form_defesa = DefesaTrabalhoForm(request.POST, instance=defesa.get(trabalho_id=pk), prefix='defesa')
-            form_defesa.ano = request.POST['ano']
         else:
             form_defesa = DefesaTrabalhoForm(request.POST, prefix='defesa')
-            form_defesa.ano = request.POST['ano']
         form_banca = TrabalhoBancaForm(request.POST, prefix='banca')
         usuario_nao_cadastrado = request.POST['tags'].split(',')
 
         if form_defesa.is_valid() and form_banca.is_valid():
-            form_defesa.ano = request.POST['ano']
             defesa = form_defesa.save(commit=False)
+            defesa.periodo = str(defesa.ano) + '.' + str(defesa.semestre)
 
             for usuario_email in usuario_nao_cadastrado:
                 if usuario_email:

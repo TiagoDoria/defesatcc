@@ -62,7 +62,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-plus"></i>
                     <span>Defesas</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -81,7 +81,7 @@
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                <i class="fas fa-fw fa-wrench"></i>
+                <i class="fas fa-fw fa-file-alt"></i>
                 <span>Relatórios</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
@@ -226,10 +226,8 @@
                                                 {% endif %}
                                                 {% if defesa.trabalho.pdf_trabalho %}
                                                 <a href="{{ defesa.trabalho.pdf_trabalho }}" target="_blank">
-                                                    <i class="material-icons tooltipped"
-                                                        data-position="top"
-                                                        data-tooltip="trabalho completo">picture_as_pdf</i>
-                                                </a>
+                                                        <i ata-toggle="tooltip" data-placement="top" title="Trabalho PDF" class="fas fa-file-pdf"></i>
+                                                    </a>
                                                 {% endif %}
                                                
                                             </td>

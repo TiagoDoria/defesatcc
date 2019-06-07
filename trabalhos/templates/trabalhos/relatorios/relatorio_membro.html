@@ -22,17 +22,22 @@
     <!-- Custom styles for this template-->
     <link rel="stylesheet" type="text/css" href="{% static '/core/css/admin.css' %}" />
     {% csrf_token %}
-    <style>
-    th, td {
-        padding: 10px;
-        padding-left: 20px;
-      
-    }
+<style>
+table, td, th {  
+  border: 1px solid #ddd;
+  text-align: left;
+}
 
-    td {
-        padding-bottom: 10px;
-    }
-    </style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 15px;
+}
+</style>
+  
 </head>
 
 <body id="page-top">
@@ -48,22 +53,22 @@
             <div class="container-fluid">
     
               <!-- Page Heading -->
-              <h2 class="text-center">Universidade Federal da Bahia</h2>
+              
+              <h2 >Universidade Federal da Bahia</h2>
               <h2 class="text-center">Departamento de Ciência da Computação</h2>
               <p class="text-center">Relatório de bancas por membro</p>
               <br />
     
               <!-- DataTales Example -->
               <div class="shadow">
+                  <img src="/core/static/core/images/pp.jpeg" />
                 <div>
                   <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                       <thead>
                         <tr>
                           <th>TÍTULO</th>
-                          <th></th>
                           <th>AUTOR</th>
-                          <th></th>
                           <th>BANCA</th>
                     
                         </tr>
@@ -71,9 +76,7 @@
                       <tfoot>
                         <tr>
                             <th>TÍTULO</th>
-                            <th></th>
                             <th>AUTOR</th>
-                            <th></th>
                             <th>BANCA</th>
                             
                         </tr>
@@ -83,9 +86,7 @@
                         {% if defesa.status != 'agendado' %}  
                         <tr>
                           <td>{{ defesa.trabalho.titulo }}</td>
-                          <td></td>
                           <td>{{ defesa.trabalho.autor }}</td>
-                          <td></td>
                           <td>{% for banca in defesa.banca %}
                                 {{ banca }} |
                             {% endfor %}</td>
