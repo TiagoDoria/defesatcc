@@ -29,6 +29,8 @@ from datetime import datetime
 from mensagem.models import EmailParticipacaoBanca
 from django.db.models import Count, Avg, Sum
 from django.http import HttpResponseRedirect
+from django.template.loader import get_template
+import base64
 
 def cadastrar_trabalho(request):
     template_name = 'trabalhos/forms.html'
@@ -468,7 +470,9 @@ def html_to_pdf_view_defesa(request):
                 'status': defesa.status,
             }
             list.append(defesas_dic)
-        html_string = render_to_string('trabalhos/relatorios/relatorio_defesa.html', {'trabalhos': trabalhos, 'defesas': list})
+        with open("trabalhos/static/img/indice.png","rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read())
+        html_string = render_to_string('trabalhos/relatorios/relatorio_defesa.html', {'img': encoded_string,'trabalhos': trabalhos, 'defesas': list})
 
         html = HTML(string=html_string)
         html.write_pdf(target='/tmp/relatorio_defesa.pdf');
@@ -501,7 +505,9 @@ def html_to_pdf_view_membro(request):
                 'status': defesa.status,
             }
             list.append(defesas_dic)
-        html_string = render_to_string('trabalhos/relatorios/relatorio_membro.html', {'trabalhos': trabalhos, 'defesas': list})
+        with open("trabalhos/static/img/indice.png","rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read())
+        html_string = render_to_string('trabalhos/relatorios/relatorio_membro.html', {'img': encoded_string,'trabalhos': trabalhos, 'defesas': list})
 
         html = HTML(string=html_string)
         html.write_pdf(target='/tmp/relatorio_membro.pdf');
@@ -571,25 +577,11 @@ def relatorio_membro(request):
         return redirect('core:home')
     
 def relatorio_quantidade(request):
-    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
-    defesas = DefesaTrabalho.objects.all()
     p = DefesaTrabalho.objects.values('periodo').order_by('periodo').annotate(num=Count('periodo'))
-    list = []
     template_name = 'trabalhos/relatorios/view_relatorio_quantidade.html'
     context = {}
-    for defesa in defesas:
-	    avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
-	    lista = []
-	    for avaliador in avaliadores:
-		    lista.append(avaliador.name)
-
-	    defesas_dic = {
-			'id': defesa.id,
-            'periodo': defesa.periodo,
-			'status': defesa.status,
-		}
-	    list.append(defesas_dic)
-    context = {"trabalhos": trabalhos, "defesas": list, "p": p}
+   
+    context = {"p": p}
     if(request.user.perfil.descricao == "Coordenador"):
         return  render(request, template_name, context)
     else:
@@ -598,8 +590,10 @@ def relatorio_quantidade(request):
 def html_to_pdf_view_quantidade(request):
     if(request.user.perfil.descricao == "Coordenador"):
         p = DefesaTrabalho.objects.values('periodo').order_by('periodo').annotate(num=Count('periodo'))
-
-        html_string = render_to_string('trabalhos/relatorios/quantidade_defesa.html', {'p': p})
+        with open("trabalhos/static/img/indice.png","rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read())
+        html_string = render_to_string('trabalhos/relatorios/quantidade_defesa.html', {'p': p,"img": encoded_string})
+        
 
         html = HTML(string=html_string)
         html.write_pdf(target='/tmp/relatorio_quantidade.pdf');

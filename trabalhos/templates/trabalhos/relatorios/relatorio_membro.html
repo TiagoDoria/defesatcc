@@ -36,6 +36,17 @@ table {
 th, td {
   padding: 15px;
 }
+p { text-align: center }
+h2 { text-align: center }
+div.image {
+  margin:0 auto ;
+  position:relative;
+  width:300px;
+  left:10%;
+  height:300px;
+  background-image:url(data:image/png;base64,{{img}});
+  background-repeat:no-repeat;
+}
 </style>
   
 </head>
@@ -54,8 +65,17 @@ th, td {
     
               <!-- Page Heading -->
               
-              <h2 >Universidade Federal da Bahia</h2>
-              <h2 class="text-center">Departamento de Ciência da Computação</h2>
+              <div class="row">
+                <div class="mb-4">
+                  <div class = 'image'></div>
+                </div>
+                <div class="mb-8">
+                    <h2 class="text-center">Departamento de Ciência da Computação</h2>
+                    <h2 class="text-center">UFBA</h2>
+                </div>
+              </div>
+              <br />
+              <br />
               <p class="text-center">Relatório de bancas por membro</p>
               <br />
     

@@ -32,9 +32,20 @@
           border-collapse: collapse;
           width: 100%;
         }
+        p { text-align: center }
+        h2 { text-align: center }
         
         th, td {
           padding: 15px;
+        }
+        div.image {
+          margin:0 auto ;
+          position:relative;
+          width:300px;
+          left:10%;
+          height:300px;
+          background-image:url(data:image/png;base64,{{img}});
+          background-repeat:no-repeat;
         }
   </style>
 </head>
@@ -50,13 +61,21 @@
           <div id="content">  
             <!-- Begin Page Content -->
             <div class="container-fluid">
-    
+              <div class="row">
+                <div class="mb-4">
+                  <div class = 'image'></div>
+                </div>
+                <div class="mb-8">
+                    <h2 class="text-center">Departamento de Ciência da Computação</h2>
+                    <h2 class="text-center">UFBA</h2>
+                </div>
+              </div>
+              
               <!-- Page Heading -->
-              <h2 class="text-center">Universidade Federal da Bahia</h2>
-              <h2 class="text-center">Departamento de Ciência da Computação</h2>
-              <p class="text-center">Relatório de quantidade de defesas</p>
+              <br /><br />
+              <p class="text-center">Relatório - Quantidade de defesas por período</p>
               <br />
-    
+              <br />
               <!-- DataTales Example -->
               <div class="shadow">
                 <div>
@@ -78,7 +97,7 @@
                       </tfoot>
                       <tbody>
                           {% for defesa in p %}
-                          {% if defesa.status == 'agendado' %}  
+                          {% if defesa.status != 'agendado' %}  
                           <tr>
                             <td>{{ defesa.periodo }}</td>
                             <td>{{defesa.num}}</td>
