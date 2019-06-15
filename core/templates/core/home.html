@@ -2,6 +2,9 @@
 {% load static %}
 {% load widget_tweaks %}
 {% load staticfiles %}
+{% load sweetify %}
+{% sweetify %}
+
 <html lang="en">
 
 <head>
@@ -11,7 +14,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-
+  
   <title>Defesas Tcc</title>
   <!-- Custom fonts for this template-->
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -70,6 +73,8 @@
       to {bottom: 0; opacity: 0;}
     }
   </style>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 </head>
 
 <body onload="myFunction()" id="page-top">
@@ -315,26 +320,38 @@
     </div>
   </div>
   {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-success" id="snackbar">{{message}}</div>
-    {% endfor %}
+  {% for message in messages %}
+  <div class="{{message.tags}}" id="confirm"></div>
+  {% endfor %}
   {% endif %}
+
 
   <!-- Bootstrap core JavaScript-->
   <script>
-    function myFunction() {
-      var x = document.getElementById("snackbar");
-      x.className = "show";
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 6000);
-    }
-  </script>
+      function myFunction() {
+        var y = document.getElementById("confirm");
+        var y2 = document.getElementById("confirm").getAttribute("class");
+        if(y2 == "success")
+        {
+          y.className = "show";
+          return swal("Sucesso!", "Trabalho cadastrado!", "success");
+        }
+        else
+        {
+          y.className = "show";
+          return swal("Falha!", "Trabalho não cadastrado!", "error");
+        }
+        
+      }
+    </script>
+  
   <script type="text/javascript" src="{% static 'core/js/jquery.min.js' %}"></script>
   <script type="text/javascript" src="{% static 'core/js/bootstrap.bundle.js' %}"></script>
   <script type="text/javascript" src="{% static 'core/js/bootstrap.min.js' %}"></script>   
   <script type="text/javascript" src="{% static 'core/js/mdb.min.js' %}"></script>  
   <!-- Core plugin JavaScript-->
   <script type="text/javascript" src="{% static 'core/js/jquery.easing.js' %}"></script>
-
+  
 
   <!-- Custom scripts for all pages-->
   <script type="text/javascript" src="{% static '/core/js/sb-admin-2.min.js' %}"></script>

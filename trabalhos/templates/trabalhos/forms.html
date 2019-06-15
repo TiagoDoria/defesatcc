@@ -2,6 +2,8 @@
 {% load static %}
 {% load widget_tweaks %}
 {% load staticfiles %}
+{% load sweetify %}
+{% sweetify %}
 <html lang="en">
 
 <head>
@@ -31,7 +33,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 
-<body id="page-top">
+<body onload="myFunction()" id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -177,7 +179,7 @@
                     <div class="row">
                         <div class="col-md-2"></div>
                         <div class="col-md-8">
-                            <form method="post" enctype="multipart/form-data">
+                            <form method="post" enctype="multipart/form-data" id="my-form">
                                 {% csrf_token %}
                                 {% for field in form %}
                                 <label class="mylabel">{{ field.label }}</label>
@@ -189,10 +191,10 @@
                                 <br />
                                 <label>Trabalho em PDF</label>
                                 <br />
-                                <input class="form-control-user" type="file" name="pdf_trabalho" id="pdf_trabalho">
+                                <input required class="form-control-user" type="file" name="pdf_trabalho" id="pdf_trabalho">
                                 <br />   
                                 <br />                            
-                                <button type="submit" class="btn btn-primary btn-user btn-block">Cadastrar</button>
+                                <button id="submit-button" class="btn btn-primary btn-user btn-block">Cadastrar</button>
                                 <hr>              
                             </form>
                         </div>
@@ -247,6 +249,18 @@
             </div>
         </div>
         </div>
+        {% if messages %}
+        {% if status == 200 %}
+        <div id="confirm">{{status}}</div>
+        {% endif %}
+      {% endif %}
+    <script>
+        function myFunction() {
+            var y = document.getElementById("confirm");
+            y.className = "show";
+            return swal("Sucesso!", "Trabalho cadastrado!", "success");
+        }
+    </script>
     <script>
         $(document).ready(function() {
           $('[data-role="tags-input"]').tagsInput();
@@ -267,6 +281,7 @@
       })();
     
     </script>
+
 
     <!-- Bootstrap core JavaScript-->
     <script type="text/javascript" src="{% static 'core/js/jquery.min.js' %}"></script>

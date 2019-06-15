@@ -4,6 +4,7 @@
 {% load static %}
 {% load widget_tweaks %}
 
+
 <html lang="pt-br">
     <head>
         <meta charset="utf-8">
@@ -80,5 +81,7 @@
             })(jQuery);
         </script>
     {{ form.media.js }}
+    {% load sweetify %}
+    {% sweetify %}
     </body>
 </html>

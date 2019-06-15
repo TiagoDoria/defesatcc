@@ -65,9 +65,10 @@
             to {bottom: 0; opacity: 0;}
         }
         </style>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
-<body id="page-top">
+<body onload="myFunction()" id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -377,17 +378,32 @@
     </div>
     {% if messages %}
     {% for message in messages %}
-    <div class="alert alert-success" id="snackbar2">{{message}}</div>
+    <div class="{{message.tags}}" id="confirm"></div>
     {% endfor %}
-     {% endif %}
+    {% endif %}
 
     <script>
-    function myFunction() {
-        var x = document.getElementById("snackbar2");
-        x.className = "show";
-        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 6000);
-    }
-    </script>
+        function myFunction() {
+          var y = document.getElementById("confirm");
+          var y2 = document.getElementById("confirm").getAttribute("class");
+          if(y2 == "success")
+          {
+            y.className = "show";
+            return swal("Sucesso!", "Trabalho deletado!", "success");
+          }
+          if(y2 == "info")
+          {
+            y.className = "show";
+            return swal("Sucesso!", "Trabalho editado!", "success");
+          }
+          else
+          {
+            y.className = "show";
+            return swal("Falha!", "Operação não realizada!", "error");
+          }
+          
+        }
+      </script>
     <!-- Bootstrap core JavaScript-->
     <script type="text/javascript" src="{% static 'core/js/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'core/js/bootstrap.bundle.js' %}"></script>

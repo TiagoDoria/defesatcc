@@ -45,15 +45,14 @@ INSTALLED_APPS = (
     'material',
     'rest_framework',
     'easy_pdf',
-
-
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'sweetify',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -194,3 +193,4 @@ GCS_PROJECT_ID = "lively-transit-227516"
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
     BASE_DIR + "/defesa/Finis-Project-9f04b284fcb1.json"
 )
+SWEETIFY_SWEETALERT_LIBRARY = 'sweetalert2'

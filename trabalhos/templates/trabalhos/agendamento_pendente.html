@@ -22,9 +22,10 @@
     <!-- Custom styles for this template-->
     <link rel="stylesheet" type="text/css" href="{% static '/core/css/admin.css' %}" />
     {% csrf_token %}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
-<body id="page-top">
+<body onload="myFunction()" id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -87,11 +88,11 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Relatórios:</h6>
-                    <a class="collapse-item" href="{% url 'trabalhos:relatorio_defesas'%}">Defesa</a>
                     {% if user.perfil.descricao == 'Professor' %}
                     <a class="collapse-item" href="{% url 'trabalhos:relatorio_membro'%}">Bancas por Membro</a>
                     {% endif %}
                     {% if user.perfil.descricao == 'Coordenador' %}
+                    <a class="collapse-item" href="{% url 'trabalhos:relatorio_defesas'%}">Defesa</a>
                     <a class="collapse-item" href="utilities-animation.html">Relação de Bancas</a>
                     <a class="collapse-item" href="{% url 'trabalhos:relatorio_quantidade'%}">Quantidade de defesas</a>
                     {% endif %}
@@ -219,10 +220,27 @@
                                                     <i class="fas fa-pen"></i>
                                                 </a>
                                                 <a href="{% url 'trabalhos:deletar_agendamento' defesa.id %}"
-                                                    data-messages="trabalho deletado com sucesso"
-                                                    class="delete-agendamento">
-                                                    <i class="fas fa-trash"></i>
+                                                data-toggle="modal"
+                                                data-target="#deletarModal">
+                                                    <i data-toggle="tooltip" data-placement="top" title="Excluir" class="fas fa-trash"></i>
                                                 </a>
+                                                <div class="modal fade" id="deletarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Realmente deseja deletar?</h5>
+                                                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">×</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">Selecione "Deletar" para confirmar.</div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                                            <a class="btn btn-secondary" href="{% url 'trabalhos:deletar_agendamento' defesa.id %}" type="button">Deletar</a>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 {% endif %}
                                                 {% if defesa.trabalho.pdf_trabalho %}
                                                 <a href="{{ defesa.trabalho.pdf_trabalho }}" target="_blank">
@@ -286,6 +304,39 @@
         </div>
     </div>
 
+    {% if messages %}
+    {% for message in messages %}
+    <div class="{{message.tags}}" id="confirm"></div>
+    {% endfor %}
+    {% endif %}
+
+    <script>
+        function myFunction() {
+          var y = document.getElementById("confirm");
+          var y2 = document.getElementById("confirm").getAttribute("class");
+          if(y2 == "success")
+          {
+            y.className = "show";
+            return swal("Sucesso!", "Agendamento realizado!", "success");
+          }
+          if(y2 == "info")
+          {
+            y.className = "show";
+            return swal("Sucesso!", "Agendamento editado!", "success");
+          }
+          if(y2 == "warning")
+          {
+            y.className = "show";
+            return swal("Sucesso!", "Agendamento deletado!", "success");
+          }
+          else
+          {
+            y.className = "show";
+            return swal("Falha!", "Operação não realizada!", "error");
+          }
+          
+        }
+    </script>
     <!-- Bootstrap core JavaScript-->
     <script type="text/javascript" src="{% static 'core/js/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'core/js/bootstrap.bundle.js' %}"></script>

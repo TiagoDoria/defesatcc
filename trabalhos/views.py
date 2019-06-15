@@ -31,10 +31,12 @@ from django.db.models import Count, Avg, Sum
 from django.http import HttpResponseRedirect
 from django.template.loader import get_template
 import base64
+import sweetify
 
 def cadastrar_trabalho(request):
     template_name = 'trabalhos/forms.html'
     context = {}
+    status = 0
     if request.method == 'POST' and request.FILES['pdf_trabalho']:
         request.POST._mutable = True
         request.POST['orientador'] = request.user.id
@@ -48,15 +50,24 @@ def cadastrar_trabalho(request):
             pdf_trabalho = fs.save(pdf_trabalho.name,pdf_trabalho)
             uploaded_file_url = fs.url(pdf_trabalho)
             trabalho.pdf_trabalho = uploaded_file_url
-            trabalho.save()
+            try:
+                trabalho.save()
+            except:
+                messages.error(request, ("Trabalho não cadastrado"))
+                return redirect('core:home')
             banca = BancaTrabalho.objects.create(usuario=request.user, trabalho=trabalho, status='aceito_pelo_orientador')
-            banca.save()
-            messages.success(request, 'Tcc cadastrado com sucesso')
+            try:
+                banca.save()
+            except:
+                messages.error(request, ("Trabalho não cadastrado"))
+                return redirect('core:home')
+            messages.success(request, ("Trabalho cadastrado com sucesso"))
             return redirect('core:home')
     else:
         form = TrabalhoForm(initial={'orientador': request.user.id})
+        
     context['form'] = form
-    return render(request, template_name, context)
+    return render(request, template_name, context, status)
 
 
 def detalhe(request, pk):
@@ -70,36 +81,39 @@ def detalhe(request, pk):
     return render(request, template_name, context)
 
 def deletar_trabalho(request, pk):
-    trabalhos = Trabalhos.objects.get(pk=pk)
-    trabalhos.delete()
-    messages.success(request, ("Trabalho deletado com sucesso"))
+    try:
+        trabalhos = Trabalhos.objects.get(pk=pk)
+        trabalhos.delete()
+        messages.success(request, ("Trabalho deletado com sucesso"))
+    except:
+        messages.error(request, ("Falha ao deletar"))
     return redirect('trabalhos:banca_pendente')
+
+def deletar_agendamento(request, pk):
+    try:
+        trabalhos = DefesaTrabalho.objects.get(pk=pk)
+        trabalhos.delete()
+        messages.success(request, ("Agendamento deletado com sucesso"))
+    except: 
+        messages.error(request, ("Falha ao deletar"))
+        
+    return redirect('trabalhos:agendamentos_pendentes')
 
 class TrabalhoUpdateView(UpdateView):
     template_name = 'trabalhos/editar.html'
     model = Trabalhos
     success_url = reverse_lazy(
-        "core:home"
+        "trabalhos:banca_pendente"
     )
     form_class = EditaTrabalhoForm
-    """  fields = [
-        'titulo',
-        'keywords',
-        'autor',
-        'co_orientador',
-        'resumo',
-        'pdf_trabalho'
-    ] """
+  
 
     def form_invalid(self, form):
-        """
-        If the form is invalid, re-render the context data with the
-        data-filled form and errors.
-        """
+     
         return self.render_to_response(self.get_context_data(form=form))
 
     def form_valid(self, form):
-        messages.success(self.request, ("Trabalho atualizado com sucesso!"))
+        messages.info(self.request, ("Trabalho atualizado com sucesso!"))
         return super(TrabalhoUpdateView, self).form_valid(form)
 
 
@@ -115,35 +129,12 @@ class TrabalhoDetail(APIView):
         trabalho.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class AgendamentoDetail(APIView):
-    def get_object(self, pk):
-        try:
-            return DefesaTrabalho.objects.get(pk=pk)
-        except DefesaTrabalho.DoesNotExist:
-            raise Http404
-
-    def delete(self, request, pk, format=None):
-        defesa = self.get_object(pk)
-        defesa.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-    def get(self,request, pk, format=None):
-        defesa = self.get_object(pk)
-        banca = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado').values_list('usuario', flat=True)
-        context = {
-            'defesa': defesa,
-            'banca': banca
-        }
-        template_name = 'trabalhos/detalhe_agendamento.html'
-        return  render(request, template_name, context)
-
-
 class DefesaTrabablhoCreate(CreateView):
     template_name = 'trabalhos/agendamento_cadastro.html'
     model = DefesaTrabalho
     form_class = DefesaTrabalhoForm
     success_url = reverse_lazy(
-        "core:home"
+        "trabalhos:agendamento_pendente"
     )
 
     def form_valid(self, form):
@@ -245,7 +236,7 @@ def defesatrabalho(request, pk):
                     )
             defesa.save()
             messages.success(request,'agendamento cadastrado com sucesso e convite enviado para os avaliadores')
-            return redirect('core:home')
+            return redirect('trabalhos:agendamentos_pendentes')
 
     template_name = 'trabalhos/agendamento_cadastro.html'
     trabalho = Trabalhos.objects.get(pk=pk)
