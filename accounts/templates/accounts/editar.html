@@ -25,7 +25,7 @@
     {% csrf_token %}
 </head>
 
-<body id="page-top">
+<body onload="myFunction()" id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -235,6 +235,25 @@
         </div>
         </div>
     </div>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="{{message.tags}}" id="confirm"></div>
+    {% endfor %}
+    {% endif %}
+
+    <script>
+        function myFunction() {
+          var y = document.getElementById("confirm");
+          var y2 = document.getElementById("confirm").getAttribute("class");
+          if(y2 == "error")
+          {
+            y.className = "show";
+            return swal("Falha!", "Dados inválidos!", "error");
+          }
+         
+          
+        }
+    </script>
 
     <!-- Bootstrap core JavaScript-->
     <script type="text/javascript" src="{% static 'core/js/jquery.min.js' %}"></script>

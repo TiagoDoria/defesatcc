@@ -43,7 +43,6 @@ def meu_login(request):
 		user = authenticate(username=request.POST['username'], password=request.POST['password1'])
 		if user is not None:
 			login(request, user)
-			messages.success(request,'Bem-vindo!')
 			return redirect('core:home')
 		else:
 			messages.error(request,'login ou senha incorretos')
@@ -122,11 +121,15 @@ class UsuarioUpdateView(UpdateView):
 
 
 	def form_valid(self, form):
-		messages.success(self.request, ("Perfil atualizado com sucesso"))
-		return super(UsuarioUpdateView, self).form_valid(form)
-
+		try:
+			super(UsuarioUpdateView, self).form_valid(form)
+			messages.info(self.request, ("Perfil atualizado com sucesso"))
+			return redirect('core:home')
+		except:
+			messages.error(self.request, ("Perfil atualizado com sucesso"))
+			return redirect('accounts:editar')
 	def get_success_url(self):
-		return reverse("accounts:editar", kwargs={'pk': self.get_object().id})
+		return redirect('core:home')
 
 
 class UsuarioUpdateApiView(generics.RetrieveUpdateDestroyAPIView):
@@ -203,25 +206,3 @@ class CertificadoAvaliadorPDFView(PDFTemplateView):
 			avaliador=avaliador,
 			**kwargs
 		)
-
-def cadastrar_titulo(request, key=None):
-    if(request.user.perfil.descricao == "Coordenador"):
-        template_name = 'accounts/cadastrar_titulo.html'
-
-        if request.method == 'POST':
-            form = CadastroTitulo(request.POST)
-            if form.is_valid():
-                user = form.save()
-                tags = 'alert-success'
-                messages.success(request,'Título cadastrado com sucesso')
-                messages.tags = "alert-success"
-                return redirect('core:home')
-        else:
-            form = CadastroTitulo()		
-        context = {
-			'form': form,
-		}
-		
-        return render(request, template_name, context)
-    else:
-         return redirect('core:home')

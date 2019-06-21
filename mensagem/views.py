@@ -39,7 +39,7 @@ class EnviaEmailParticipacaoBanca(APIView):
         else:
             subject = 'Convite para compor a banca avaliadora do trabalho ' + trabalho.titulo
         context = {'trabalho': trabalho, 'base_url': base_url, 'key': key, 'avaliador': request.user}
-        send_mail_template(subject, template_name, context, [trabalho.orientador.email], request.user.email)
+        send_mail_template(subject, template_name, context, [trabalho.orientador.email], request.user.username)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 def confirmada_participacao_banca(request, key):
@@ -47,7 +47,7 @@ def confirmada_participacao_banca(request, key):
         participacao_banca = get_object_or_404(EmailParticipacaoBanca, key=key)
 
         if participacao_banca.visualizada:
-            messages.error(request, 'Esta mensagem já foi respondida')
+            messages.warning(request, 'Esta mensagem já foi respondida')
             return redirect('core:home')
         else:
             if participacao_banca.tipo == 'pedido de participação':
@@ -91,7 +91,7 @@ def confirmada_participacao_banca(request, key):
                 subject,
                 template_name,
                 context,
-                [participacao_banca.remetente.email]
+                [participacao_banca.remetente.username]
             )
             participacao_banca.visualizada = date.today()
             participacao_banca.save()

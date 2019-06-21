@@ -21,6 +21,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
+import pdb
 from django.utils.decorators import method_decorator
 from accounts.decorators import acesso, valida_perfil
 from .models import Trabalhos, DefesaTrabalho, BancaTrabalho
@@ -72,6 +73,7 @@ def cadastrar_trabalho(request):
 
 def detalhe(request, pk):
     trabalhos = get_object_or_404(Trabalhos,pk=pk)
+    
     context = {
         'trabalhos': trabalhos
     }
@@ -91,9 +93,9 @@ def deletar_trabalho(request, pk):
 
 def deletar_agendamento(request, pk):
     try:
-        trabalhos = DefesaTrabalho.objects.get(pk=pk)
+        trabalhos = DefesaTrabalho.objects.filter(trabalho_id=pk)
         trabalhos.delete()
-        messages.success(request, ("Agendamento deletado com sucesso"))
+        messages.warning(request, ("Agendamento deletado com sucesso"))
     except: 
         messages.error(request, ("Falha ao deletar"))
         

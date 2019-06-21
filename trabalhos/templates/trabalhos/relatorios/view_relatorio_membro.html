@@ -101,21 +101,7 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
-            {% if user.perfil.descricao == 'Coordenador' %}
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseTwo">
-                <i class="fas fa-fw fa-cog"></i>
-                <span>Admin</span>
-                </a>
-                <div id="collapseThree" class="collapse" aria-labelledby="collapseThree" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Selecione:</h6>
-                    <a class="collapse-item" href="{% url 'accounts:cadastrar_titulo'%}">Cadastrar Título</a>
-                </div>
-                </div>
-            </li>
-            {% endif %}
-
+           
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
 
@@ -166,10 +152,16 @@
                                 </a>
                              
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'accounts:logout' %}" data-toggle="modal"
-                                    data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Sair
+                                <a class="dropdown-item" href="{% url 'accounts:logout' %}" 
+                                data-toggle="modal"
+                                
+                                onclick="swal('Desejar sair?', {
+                                dangerMode: true,
+                                buttons: true,
+                                }).then((x) => {if(x){window.location.href=`{% url 'accounts:logout' %}` } });" 
+                                data-target="#deletarModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Sair
                                 </a>
                             </div>
                         </li>
@@ -280,7 +272,7 @@
     <!-- Bootstrap core JavaScript-->
     <script type="text/javascript" src="{% static 'core/js/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'core/js/bootstrap.bundle.js' %}"></script>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- Core plugin JavaScript-->
     <script type="text/javascript" src="{% static 'core/js/jquery.easing.js' %}"></script>
 

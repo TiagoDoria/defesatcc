@@ -36,6 +36,16 @@
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="{% static '/core/drop/mock.js'%}"></script>
     <script type="text/javascript" src="{% static '/core/drop/jquery.dropdown.js'%}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        (function($) {
+            $(function() {
+                window.fs_test = $('.test').fSelect();
+            });
+        })(jQuery);
+    </script>
+    <script src="{% static '/core/js/fSelect.js' %}"></script>
+    <script src="{% static '/core/css/fSelect.css' %}"></script>
 </head>
 
 <body id="page-top">
@@ -220,23 +230,16 @@
                                 </div>
                                 <br />
                                 {% endfor %} 
-
-                                <label>Banca</label>
-                               <!--  <div class="dropdown-sin-2">
-                                    <select name="banca" id="banca" class="form-control form-control-user" style="display:none" multiple placeholder="Select">
-                                        {% for field in form %}
-                                        <option value="{{field.pk}}">{{field}}</option>
-                                        {% endfor %} 
-                                    </select>
-                                </div> -->
+                                <div class="row">
+                                    <label>Banca</label>
+                                    <br />
                                     {% for field in form %}
-                                    {{field}}
+                                        {{field}}   
                                     {% endfor %} 
-                                </select>
-                                
+                                </div>
                                 <br />
                                 <div class="row">
-                                    <div class="input-field col s12">
+                                    <div class="col-md-12">
                                         <label>E-mails não cadastrados</label>
                                         <input class="form-control form-control-user" name="tags" id="tags" data-role='tags-input' placeholder="E-mails">
       
@@ -305,22 +308,15 @@
         var Random = Mock.Random;
   
         var json2 = Mock.mock({
-            "data|10000-10000": []
+            "data|": []
         });
    
         $('.dropdown-sin-2').dropdown({
-            data: json2.data,
             input: '<input type="text" maxLength="20" placeholder="Search">'
         });
     </script>
     
-   
-    <script>
-        $(document).ready(function() {
-          $('[data-role="tags-input"]').tagsInput();
-        });
-    </script>
-    
+
     <script type="text/javascript">
     
       var _gaq = _gaq || [];

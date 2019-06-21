@@ -18,11 +18,13 @@ class TrabalhoForm(forms.ModelForm):
 			'resumo': forms.Textarea(attrs={'class':'form-control','placeholder':'Resumo'})
 		}
 
+
 class TrabalhoBancaForm(forms.ModelForm):
 	banca = forms.ModelMultipleChoiceField(
 		label='Banca',
-		queryset=Usuario.objects.order_by('name')
-	)
+		queryset=Usuario.objects.order_by('name'),
+  		widget=forms.SelectMultiple(attrs={'class':' form-control'})
+  	)
  
 	class Meta:
 		model = Trabalhos

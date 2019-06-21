@@ -65,7 +65,7 @@
   </style>
 </head>
 
-<body class="bg-gradient-primary">
+<body onload="myFunction()" class="bg-gradient-primary">
 
   <div class="container">
 
@@ -127,18 +127,37 @@
 
   </div>
   {% if messages %}
-  {% for message in messages %}
-  <div class="alert alert-success" id="snackbar">{{message}}</div>
-  {% endfor %}
-  {% endif %}
-  <script>
-    function myFunction() {
-      var x = document.getElementById("snackbar");
-      x.className = "show";
-      setTimeout(function(){ x.className = x.className.replace("show", ""); }, 6000);
-    }
-  </script>
+    {% for message in messages %}
+    <div class="{{message.tags}}" id="confirm"></div>
+    {% endfor %}
+    {% endif %}
+
+
+    <script>
+        function myFunction() {
+          var y = document.getElementById("confirm");
+          var y2 = document.getElementById("confirm").getAttribute("class");
+          if(y2 == "success")
+          {
+            y.className = "show";
+            return swal("Sucesso!", "Cadastro realizado!", "success");
+          }
+          if(y2 == "info")
+          {
+            y.className = "show";
+            return swal("Sucesso!", "Trabalho editado!", "success");
+          }
+          else
+          {
+            y.className = "show";
+            return swal("Falha!", "Operação não realizada!", "error");
+          }
+          
+        }
+      </script>
+  
   <!-- Bootstrap core JavaScript-->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

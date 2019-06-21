@@ -87,11 +87,12 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Relatórios:</h6>
-                    <a class="collapse-item" href="{% url 'trabalhos:relatorio_defesas'%}">Defesa</a>
+                    
                     {% if user.perfil.descricao == 'Professor' %}
                     <a class="collapse-item" href="{% url 'trabalhos:relatorio_membro'%}">Bancas por Membro</a>
                     {% endif %}
                     {% if user.perfil.descricao == 'Coordenador' %}
+                    <a class="collapse-item" href="{% url 'trabalhos:relatorio_defesas'%}">Defesa</a>
                     <a class="collapse-item" href="utilities-animation.html">Relação de Bancas</a>
                     <a class="collapse-item" href="{% url 'trabalhos:relatorio_quantidade'%}">Quantidade de defesas</a>
                     {% endif %}
@@ -148,10 +149,16 @@
                                 </a>
                               
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'accounts:logout' %}" data-toggle="modal"
-                                    data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Sair
+                                <a class="dropdown-item" href="{% url 'accounts:logout' %}" 
+                                data-toggle="modal"
+                                
+                                onclick="swal('Desejar sair?', {
+                                dangerMode: true,
+                                buttons: true,
+                                }).then((x) => {if(x){window.location.href=`{% url 'accounts:logout' %}` } });" 
+                                data-target="#deletarModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Sair
                                 </a>
                             </div>
                         </li>
@@ -290,6 +297,7 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script type="text/javascript" src="{% static 'core/js/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'core/js/bootstrap.bundle.js' %}"></script>
 

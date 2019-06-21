@@ -216,9 +216,16 @@
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Perfil
                 </a>
-              
+
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{% url 'accounts:logout' %}" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="{% url 'accounts:logout' %}" 
+                data-toggle="modal"
+                
+                onclick="swal('Desejar sair?', {
+                  dangerMode: true,
+                  buttons: true,
+                }).then((x) => {if(x){window.location.href=`{% url 'accounts:logout' %}` } });" 
+                data-target="#deletarModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Sair
                 </a>
@@ -260,16 +267,6 @@
                 </div>
               </div>
 
-              <!-- Approach -->
-             <!--  <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                </div>
-                <div class="card-body">
-                  <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and poor page performance. Custom CSS classes are used to create custom components and custom utility classes.</p>
-                  <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
-                </div>
-              </div> -->
 
             </div>
           </div>
@@ -336,10 +333,21 @@
           y.className = "show";
           return swal("Sucesso!", "Trabalho cadastrado!", "success");
         }
+        else if(y2 == "info")
+        {
+          y.className = "show";
+          return swal("Sucesso!", "Perfil editado!", "success");
+        }
+        else if(y2 == "error")
+        {
+          y.className = "show";
+          return swal("Falha!", "Operação não realizada!", "error");
+        }
+
         else
         {
           y.className = "show";
-          return swal("Falha!", "Trabalho não cadastrado!", "error");
+          return swal("Falha!", "Convite já respondido!", "error");
         }
         
       }
