@@ -32,7 +32,6 @@ from django.db.models import Count, Avg, Sum
 from django.http import HttpResponseRedirect
 from django.template.loader import get_template
 import base64
-import sweetify
 
 def cadastrar_trabalho(request):
     template_name = 'trabalhos/forms.html'
