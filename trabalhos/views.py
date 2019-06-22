@@ -229,12 +229,11 @@ def defesatrabalho(request, pk):
                 template_name = 'mensagem/banca/confirmado_agendamento_defesa.html'
                 context = {'trabalho': defesa.trabalho, 'defesa': defesa, 'avaliadores': banca}
                 for avaliador in form_banca.cleaned_data['banca']:
-                    print(avaliador.email)
                     send_mail_template(
                         subject,
                         template_name,
                         context,
-                        [avaliador.email]
+                        [avaliador.username]
                     )
             defesa.save()
             messages.success(request,'agendamento cadastrado com sucesso e convite enviado para os avaliadores')
@@ -639,3 +638,11 @@ def relatorio_orientador(request, pk):
         return  render(request, template_name, context)
     else:
         return redirect('trabalhos:home')
+
+
+
+def confirmar_defesa(request, pk):
+    DefesaTrabalho.objects.filter(pk=pk).update(status='agendado')
+    messages.success(request, "Defesa confirmada com sucesso")
+    return redirect('trabalhos:defesas_confirmadas')
+   

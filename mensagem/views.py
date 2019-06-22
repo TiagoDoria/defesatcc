@@ -19,28 +19,28 @@ from rest_framework import status
 
 # Create your views here.
 
-class EnviaEmailParticipacaoBanca(APIView):
 
-    def post(self, request, pk, format=None):
-        trabalho = Trabalhos.objects.get(pk=pk)
-        key = generate_hash_key(request.user.username)
-        email_participacao_banca = EmailParticipacaoBanca(
-            remetente=request.user,
-            destinatario=trabalho.orientador,
-            key=key,
-            trabalho=trabalho,
-            tipo='pedido de participação'
-        )
-        base_url = request.scheme + "://" + request.get_host()
-        email_participacao_banca.save()
-        template_name = 'mensagem/banca/pedido_participacao_banca.html'
-        if (settings.DEV):
-            subject = 'Convite para compor a banca avaliadora do trabalho ' + unicode(trabalho.titulo)
-        else:
-            subject = 'Convite para compor a banca avaliadora do trabalho ' + trabalho.titulo
-        context = {'trabalho': trabalho, 'base_url': base_url, 'key': key, 'avaliador': request.user}
-        send_mail_template(subject, template_name, context, [trabalho.orientador.email], request.user.username)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+
+def post(request, pk, format=None):
+    trabalho = Trabalhos.objects.get(pk=pk)
+    key = generate_hash_key(request.user.username)
+    email_participacao_banca = EmailParticipacaoBanca(
+        remetente=request.user,
+        destinatario=trabalho.orientador,
+        key=key,
+        trabalho=trabalho,
+        tipo='pedido de participação'
+    )
+    base_url = request.scheme + "://" + request.get_host()
+    email_participacao_banca.save()
+    template_name = 'mensagem/banca/pedido_participacao_banca.html'
+    if (settings.DEV):
+        subject = 'Convite para compor a banca avaliadora do trabalho ' + unicode(trabalho.titulo)
+    else:
+        subject = 'Convite para compor a banca avaliadora do trabalho ' + trabalho.titulo
+    context = {'trabalho': trabalho,'base_url': base_url, 'key': key, 'avaliador': request.user}
+    send_mail_template(subject, template_name, context, [trabalho.orientador.username], request.user.username)
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 def confirmada_participacao_banca(request, key):
 

@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^download_relatorio_membro/$', views.html_to_pdf_view_membro, name='download_relatorio_membro'),
     url(r'^download_relatorio_quantidade/$', views.html_to_pdf_view_quantidade, name='download_relatorio_quantidade'),
     url(r'^relatorio_orientador/(?P<pk>\d+)/$', views.relatorio_orientador, name='relatorio_orientador'),
+    url(r'^confirmar_defesa/(?P<pk>\d+)/$', views.confirmar_defesa, name='confirmar_defesa'),
     
 ]

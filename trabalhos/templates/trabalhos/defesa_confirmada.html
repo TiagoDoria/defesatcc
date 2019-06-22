@@ -22,9 +22,10 @@
     <!-- Custom styles for this template-->
     <link rel="stylesheet" type="text/css" href="{% static '/core/css/admin.css' %}" />
     {% csrf_token %}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
-<body id="page-top">
+<body onload="myFunction()" id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -217,7 +218,7 @@
                                             <td>{{ defesa.trabalho.titulo }}</td>
                                             <td>
                                                 {% for banca in defesa.banca %}
-                                                    <li>{{ banca }}</li>
+                                                   {{ banca }} |
                                                 {% endfor %}
                                             </td>
                                             <td>
@@ -295,6 +296,32 @@
             </div>
         </div>
     </div>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="{{message.tags}}" id="confirm"></div>
+    {% endfor %}
+    {% endif %}
+
+
+    <script>
+        function myFunction() {
+          var y = document.getElementById("confirm");
+          var y2 = document.getElementById("confirm").getAttribute("class");
+          if(y2 == "success")
+          {
+            y.className = "show";
+            return swal("Sucesso!", "Defesa confirmada!", "success");
+          }
+         
+          else
+          {
+            y.className = "show";
+            return swal("Falha!", "Operação não realizada!", "error");
+          }
+          
+        }
+      </script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

@@ -223,7 +223,10 @@
     
                                                 {% if user.id == defesa.trabalho.orientador.id %}
                                                 <a href="{% url 'trabalhos:cadastrar_agendamento_defesa' defesa.trabalho.id %}">
-                                                    <i class="fas fa-pen"></i>
+                                                    <i data-toggle="tooltip" data-placement="top" title="Editar" class="fas fa-pen"></i>
+                                                </a>
+                                                <a href="{% url 'trabalhos:confirmar_defesa' defesa.id %}">
+                                                    <i data-toggle="tooltip" data-placement="top" title="Confirmar" class="fas fa-check-circle"></i>
                                                 </a>
                                                 <a href="{% url 'trabalhos:deletar_agendamento' defesa.trabalho.id %}"
                                                 data-toggle="modal"
@@ -238,7 +241,7 @@
                                                 {% endif %}
                                                 {% if defesa.trabalho.pdf_trabalho %}
                                                 <a href="{{ defesa.trabalho.pdf_trabalho }}" target="_blank">
-                                                        <i ata-toggle="tooltip" data-placement="top" title="Trabalho PDF" class="fas fa-file-pdf"></i>
+                                                        <i data-toggle="tooltip" data-placement="top" title="Trabalho PDF" class="fas fa-file-pdf"></i>
                                                     </a>
                                                 {% endif %}
                                                
