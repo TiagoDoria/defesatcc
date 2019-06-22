@@ -30,9 +30,11 @@ pdfkit==0.6.1
 Pillow==5.4.1
 protobuf==3.6.1
 psycopg2==2.7.3.2
+pudb==2019.1
 pyasn1==0.4.5
 pyasn1-modules==0.2.3
 pycparser==2.19
+Pygments==2.4.2
 PyPDF2==1.26.0
 Pyphen==0.9.5
 pytz==2018.9
@@ -41,9 +43,11 @@ reportlab==3.5.13
 requests==2.21.0
 rsa==4.0
 six==1.12.0
+sweetify==2.0.0
 tinycss==0.4
 tinycss2==0.6.1
 urllib3==1.24.1
+urwid==2.0.1
 WeasyPrint==0.34
 webencodings==0.5.1
 whitenoise==3.3.1
