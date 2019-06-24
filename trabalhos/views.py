@@ -641,7 +641,24 @@ def relatorio_orientador(request, pk):
 
 
 def confirmar_defesa(request, pk):
-    DefesaTrabalho.objects.filter(pk=pk).update(status='agendado')
+    defesa = DefesaTrabalho.objects.all().get(pk=pk)
+    banca = BancaTrabalho.objects.all().filter(trabalho_id=defesa.trabalho)
+    defesa.status = 'agendado'
+    banca = banca.filter(status__contains='aceito')
+    if (settings.DEV):
+        subject = 'Confinmação da defesa do trabalho ' + unicode(defesa.trabalho.titulo)
+    else:
+        subject = 'Confirmação da defesa do trabalho ' + defesa.trabalho.titulo
+    template_name = 'mensagem/banca/confirmado_agendamento_defesa.html'
+    context = {'trabalho': defesa.trabalho, 'defesa': defesa, 'avaliadores': banca}
+    for avaliador in banca:
+        send_mail_template(
+            subject,
+            template_name,
+            context,
+            [avaliador.usuario.username]
+        )
+    defesa.save()
     messages.success(request, "Defesa confirmada com sucesso")
     return redirect('trabalhos:defesas_confirmadas')
    
