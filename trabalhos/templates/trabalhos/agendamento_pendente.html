@@ -225,7 +225,12 @@
                                                 <a href="{% url 'trabalhos:cadastrar_agendamento_defesa' defesa.trabalho.id %}">
                                                     <i data-toggle="tooltip" data-placement="top" title="Editar" class="fas fa-pen"></i>
                                                 </a>
-                                                <a href="{% url 'trabalhos:confirmar_defesa' defesa.id %}">
+                                                <a href="{% url 'trabalhos:confirmar_defesa' defesa.id %}"
+                                                onclick="swal('Desejar confirmar a defesa:  {{defesa.trabalho.titulo}}?', {
+                                                    dangerMode: true,
+                                                    buttons: true,
+                                                }).then((x) => {if(x){window.location.href=`{% url 'trabalhos:confirmar_defesa' defesa.id %}` } });"
+                                                data-target="#deletarModal">
                                                     <i data-toggle="tooltip" data-placement="top" title="Confirmar" class="fas fa-check-circle"></i>
                                                 </a>
                                                 <a href="{% url 'trabalhos:deletar_agendamento' defesa.trabalho.id %}"

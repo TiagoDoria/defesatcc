@@ -244,7 +244,7 @@ def defesatrabalho(request, pk):
 
     if defesa:
         form_defesa = DefesaTrabalhoForm(initial={'local': defesa[0].local,
-                                                    'data': defesa[0].data.strftime('%d/%m/%Y'),
+                                                    'data': defesa[0].data.strftime('%Y-%m-%d'),
                                                     'hora': defesa[0].hora.strftime('%H:%M'),
                                                     'ano': defesa[0].ano,
                                                     'semestre': defesa[0].semestre,
@@ -407,8 +407,7 @@ def agendamento_pendente(request,key=None):
 		}
 		list.append(defesas_dic)
 	context = {"trabalhos": trabalhos, "defesas": list}
-	return  render(request, template_name, context)
-    
+	return  render(request, template_name, context)   
 
 def defesas_confirmadas(request):
 	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
@@ -435,8 +434,7 @@ def defesas_confirmadas(request):
 		}
 		list.append(defesas_dic)
 	context = {"trabalhos": trabalhos, "defesas": list}
-	return  render(request, template_name, context)
-    
+	return  render(request, template_name, context)  
 
 def html_to_pdf_view_defesa(request):
     if(request.user.perfil.descricao == "Coordenador"):
@@ -512,6 +510,7 @@ def html_to_pdf_view_membro(request):
         return response
     else:
         return redirect('core:home')
+    
 def relatorio_defesa(request):
     trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
     defesas = DefesaTrabalho.objects.all()
@@ -637,8 +636,6 @@ def relatorio_orientador(request, pk):
         return  render(request, template_name, context)
     else:
         return redirect('trabalhos:home')
-
-
 
 def confirmar_defesa(request, pk):
     defesa = DefesaTrabalho.objects.all().get(pk=pk)

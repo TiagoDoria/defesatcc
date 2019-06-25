@@ -46,13 +46,18 @@ class DefesaTrabalhoForm(forms.ModelForm):
 		model = DefesaTrabalho
 		exclude = ('status',)
 		fields = ('local', 'data', 'hora', 'trabalho', 'ano','semestre')
+		choices=[('', '--Selecione--')
+                ,('2015','2015'),('2016','2016'),('2017','2017')
+                ,('2018','2018'),('2019','2019'),('2020','2020')
+                ,('2021','2021'),('2022','2022'),('2023','2023')
+                ,('2024','2024'),('2025','2025'),('2026','2026')]
 
 		widgets = {
 			'local': forms.TextInput(attrs={'class': 'col-md-12 form-control form-control-user'}),		
 		 	'data': forms.DateInput(attrs={'class': 'datepicker form-control form-control-user', 'type': 'date'}),
-			'hora': forms.TextInput(attrs={'class': 'timepicker form-control form-control-user'}),
-      		'ano': forms.TextInput(attrs={'class': 'form-control form-control-user', 'type': 'number'}),
-        	'semestre': forms.TextInput(attrs={'class': 'form-control form-control-user','type': 'number'}),
+			'hora': forms.TextInput(attrs={'class': 'timepicker form-control form-control-user', 'type': 'time'}),
+      		'ano': forms.Select(choices=choices,attrs={'class': 'form-control form-control-user', 'type': 'number'}),
+        	'semestre': forms.Select(choices=[('', '--Selecione--'),('1','1'),('2','2')],attrs={'class': 'form-control form-control-user','type': 'number'}),
 			'trabalho': forms.Select(attrs={'disabled': 'disabled','class': 'form-control form-control-user'})
 		}
 
