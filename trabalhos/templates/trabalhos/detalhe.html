@@ -92,12 +92,12 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Relatórios:</h6>
-                    <a class="collapse-item" href="{% url 'trabalhos:relatorio_defesas'%}">Defesa</a>
                     {% if user.perfil.descricao == 'Professor' %}
                     <a class="collapse-item" href="{% url 'trabalhos:relatorio_membro'%}">Bancas por Membro</a>
                     {% endif %}
                     {% if user.perfil.descricao == 'Coordenador' %}
-                    <a class="collapse-item" href="utilities-animation.html">Relação de Bancas</a>
+                    <a class="collapse-item" href="{% url 'trabalhos:relatorio_defesas'%}">Defesa</a>
+                    <!-- <a class="collapse-item" href="utilities-animation.html">Relação de Bancas</a> -->
                     <a class="collapse-item" href="{% url 'trabalhos:relatorio_quantidade'%}">Quantidade de defesas</a>
                     {% endif %}
                 </div>
