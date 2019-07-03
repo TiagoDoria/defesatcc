@@ -92,11 +92,11 @@
                     {% csrf_token %}
                     <div class="form-group">
                       <label>E-mail</label>
-                      <input type="text" class="form-control form-control-user" id="id_username" name="username" aria-describedby="emailHelp" placeholder="E-mail">
+                      <input required type="email" class="form-control form-control-user" id="id_username" name="username" aria-describedby="emailHelp" placeholder="E-mail">
                     </div>
                     <div class="form-group">
                       <label>Senha</label>
-                      <input type="password" class="form-control form-control-user" id="id_password1" name="password1" placeholder="Senha">
+                      <input required type="password" class="form-control form-control-user" id="id_password1" name="password1" placeholder="Senha">
                     </div>
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">

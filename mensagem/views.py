@@ -40,7 +40,8 @@ def post(request, pk, format=None):
         subject = 'Convite para compor a banca avaliadora do trabalho ' + trabalho.titulo
     context = {'trabalho': trabalho,'base_url': base_url, 'key': key, 'avaliador': request.user}
     send_mail_template(subject, template_name, context, [trabalho.orientador.username], request.user.username)
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    #return Response(status=status.HTTP_204_NO_CONTENT)
+    return redirect('core:home')
 
 def confirmada_participacao_banca(request, key):
 
@@ -111,10 +112,10 @@ def confirmada_participacao_banca(request, key):
                         subject,
                         template_name,
                         context,
-                        [avaliador.usuario.email]
+                        [avaliador.usuario.username]
                     )
 
-            return render(request, template_name_render)
+        return render(request, template_name_render)
 
 def rejeitada_participacao_banca(request, key):
 
