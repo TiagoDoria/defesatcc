@@ -226,6 +226,7 @@
                                                     <i data-toggle="tooltip" data-placement="top" title="Editar" class="fas fa-pen"></i>
                                                 </a>
                                                 <a href="{% url 'trabalhos:confirmar_defesa' defesa.id %}"
+                                                data-toggle="modal"
                                                 onclick="swal('Desejar confirmar a defesa:  {{defesa.trabalho.titulo}}?', {
                                                     dangerMode: true,
                                                     buttons: true,
