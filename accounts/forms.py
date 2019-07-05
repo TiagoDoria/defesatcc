@@ -92,16 +92,16 @@ class EditaCadastroForm(forms.ModelForm):
 
 class ResetSenhaForm(forms.Form):
 
-	email = forms.EmailField(label='E-mail', widget=forms.EmailInput(attrs={'class':'form-control form-control-user'}))
+	username = forms.EmailField(label='E-mail', widget=forms.EmailInput(attrs={'class':'form-control form-control-user'}))
 
 	def clean_email(self):
-		email = self.cleaned_data['email']
-		if Usuario.objects.filter(email=email).exists():
-			return email
+		username = self.cleaned_data['email']
+		if Usuario.objects.filter(username=username).exists():
+			return username
 		raise forms.ValidationError('Nenhum usuário encontrado com este e-mail')
 
 	def save(self):
-		user = Usuario.objects.get(email=self.cleaned_data['email'])
+		user = Usuario.objects.get(email=self.cleaned_data['username'])
 		key = generate_hash_key(user.username)
 		reset = NovaSenha(key=key, user=user)
 		reset.save()
@@ -109,7 +109,7 @@ class ResetSenhaForm(forms.Form):
 		template_name = 'accounts/reset_senha_mail.html'
 		subject = 'Criar nova Senha no Defesas Ufba'
 		context = { 'reset': reset, 'base_url': base_url}
-		send_mail_template(subject, template_name, context, [user.email])
+		send_mail_template(subject, template_name, context, [user.username])
 
 class PerfilForm(forms.ModelForm):
 	

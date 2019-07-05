@@ -276,7 +276,7 @@ def banca_trabalho(request, pk):
 
         base_url = request.scheme + "://" + request.get_host()
         context = {'trabalho': trabalho, 'usuario': user, 'base_url': base_url, 'key': key}
-        send_mail_template(subject, template_name, context, [user.email])
+        send_mail_template(subject, template_name, context, [user.username])
 
 
     trabalho = Trabalhos.objects.get(pk=pk)

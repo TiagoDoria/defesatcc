@@ -106,7 +106,6 @@ def reset_senha_confirm(request, key):
 	if form.is_valid():
 		form.save()
 		context['success'] = True
-		messages.success(request,'Usuário cadastrado com sucesso')
 		return redirect('accounts:login')
 	context['form'] = form	
 
