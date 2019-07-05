@@ -117,7 +117,6 @@ class TrabalhoUpdateView(UpdateView):
         messages.info(self.request, ("Trabalho atualizado com sucesso!"))
         return super(TrabalhoUpdateView, self).form_valid(form)
 
-
 class TrabalhoDetail(APIView):
     def get_object(self, pk):
         try:
@@ -146,7 +145,6 @@ class DefesaTrabablhoCreate(CreateView):
             banca = BancaTrabalho.objects.create(usuario = user,defesa_trabalho = self.object)
         messages.success(self.request, ("Agendamento realizado com sucesso"))
         return super(DefesaTrabablhoCreate, self).form_valid(form)
-
 
 def defesatrabalho(request, pk):
 
@@ -262,7 +260,6 @@ def defesatrabalho(request, pk):
     context = {'form': form, 'form_defesa': form_defesa, 'titulo': trabalho.titulo, 'bancas': menbros}
     return render(request, template_name, context)
 
-
 def banca_trabalho(request, pk):
 
     def envia_email(trabalho, user, template_name, subject):
@@ -356,7 +353,10 @@ def banca_trabalho(request, pk):
         return redirect('core:home')
 
 def banca_pendente(request,key=None):
-    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True, orientador_id=request.user.id)
+    if (request.user.perfil.descricao == 'Professor'):
+        trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True, orientador_id=request.user.id)
+    if (request.user.perfil.descricao == 'Coordenador'):
+        trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
     defesas = DefesaTrabalho.objects.all()
     template_name = 'trabalhos/banca_pendente.html'
     context = {}
@@ -383,18 +383,21 @@ def banca_pendente(request,key=None):
     return  render(request, template_name, context)
 
 def agendamento_pendente(request,key=None):
-	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True, orientador_id=request.user.id)
-	defesas = DefesaTrabalho.objects.all()
-	template_name = 'trabalhos/agendamento_pendente.html'
-	context = {}
-	list = []
-	for defesa in defesas:
-		avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
-		lista = []
-		for avaliador in avaliadores:
-			lista.append(avaliador.name)
+    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True, orientador_id=request.user.id)
+    if (request.user.perfil.descricao == 'Professor'):
+        defesas = DefesaTrabalho.objects.all().filter(trabalho__orientador_id=request.user.id)
+    if (request.user.perfil.descricao == 'Coordenador'):
+        defesas = DefesaTrabalho.objects.all()
+    template_name = 'trabalhos/agendamento_pendente.html'
+    context = {}
+    list = []
+    for defesa in defesas:
+        avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
+        lista = []
+        for avaliador in avaliadores:
+            lista.append(avaliador.name)
 
-		defesas_dic = {
+        defesas_dic = {
 			'id': defesa.id,
 			'local': defesa.local,
 			'data': defesa.data,
@@ -405,23 +408,26 @@ def agendamento_pendente(request,key=None):
 			'banca': lista,
 			'status': defesa.status,
 		}
-		list.append(defesas_dic)
-	context = {"trabalhos": trabalhos, "defesas": list}
-	return  render(request, template_name, context)   
+        list.append(defesas_dic)
+    context = {"trabalhos": trabalhos, "defesas": list}
+    return  render(request, template_name, context)   
 
 def defesas_confirmadas(request):
-	trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True, orientador_id=request.user.id)
-	defesas = DefesaTrabalho.objects.all().filter(trabalho__orientador_id=request.user.id)
-	list = []
-	template_name = 'trabalhos/defesa_confirmada.html'
-	context = {}
-	for defesa in defesas:
-		avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
-		lista = []
-		for avaliador in avaliadores:
-			lista.append(avaliador.name)
+    trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True, orientador_id=request.user.id)
+    list = []
+    template_name = 'trabalhos/defesa_confirmada.html'
+    context = {}
+    if (request.user.perfil.descricao == 'Coordenador'):
+        defesas = DefesaTrabalho.objects.all()
+    if (request.user.perfil.descricao == 'Professor'):
+        defesas = DefesaTrabalho.objects.all().filter(trabalho__orientador_id=request.user.id)
+    for defesa in defesas:
+        avaliadores = defesa.trabalho.banca.all().exclude(bancatrabalho__status__contains='negado')
+        lista = []
+        for avaliador in avaliadores:
+            lista.append(avaliador.name)
 
-		defesas_dic = {
+        defesas_dic = {
 			'id': defesa.id,
 			'local': defesa.local,
 			'data': defesa.data,
@@ -432,9 +438,9 @@ def defesas_confirmadas(request):
 			'banca': lista,
 			'status': defesa.status,
 		}
-		list.append(defesas_dic)
-	context = {"trabalhos": trabalhos, "defesas": list}
-	return  render(request, template_name, context)  
+        list.append(defesas_dic)
+    context = {"trabalhos": trabalhos, "defesas": list}
+    return  render(request, template_name, context)  
 
 def html_to_pdf_view_defesa(request):
     if(request.user.perfil.descricao == "Coordenador"):
