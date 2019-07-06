@@ -31,6 +31,7 @@ from mensagem.models import EmailParticipacaoBanca
 from django.db.models import Count, Avg, Sum
 from django.http import HttpResponseRedirect
 from django.template.loader import get_template
+from django.contrib.auth.decorators import login_required
 import base64
 
 @login_required
