@@ -27,9 +27,10 @@
     <script src="{% static '/core/tags/jquery-tagsinput.min.js'%}" defer></script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
-<body id="page-top">
+<body onload="myFunction()" id="page-top">
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -179,10 +180,16 @@
                                 </a>
                               
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'accounts:logout' %}" data-toggle="modal"
-                                    data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Sair
+                                <a class="dropdown-item" href="{% url 'accounts:logout' %}" 
+                                data-toggle="modal"
+                                
+                                onclick="swal('Desejar sair?', {
+                                dangerMode: true,
+                                buttons: true,
+                                }).then((x) => {if(x){window.location.href=`{% url 'accounts:logout' %}` } });" 
+                                data-target="#deletarModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Sair
                                 </a>
                             </div>
                         </li>
@@ -269,23 +276,28 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Realmente deseja sair?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Selecione "Sair" para encessar sessão.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-secondary" href="{% url 'accounts:logout' %}" type="button">Sair</a>
-            </div>
-            </div>
-        </div>
-    </div>
+    <script>
+        function myFunction() {
+          var y = document.getElementById("confirm");
+          var y2 = document.getElementById("confirm").getAttribute("class");
+          if(y2 == "success")
+          {
+            y.className = "show";
+            return swal("Sucesso!", "Trabalho deletado!", "success");
+          }
+          if(y2 == "info")
+          {
+            y.className = "show";
+            return swal("Sucesso!", "Trabalho editado!", "success");
+          }
+          else
+          {
+            y.className = "show";
+            return swal("Falha!", "Operação não realizada!", "error");
+          }
+          
+        }
+      </script>
     <script>
         $(document).ready(function() {
           $('[data-role="tags-input"]').tagsInput();

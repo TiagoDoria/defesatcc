@@ -33,6 +33,7 @@ from django.http import HttpResponseRedirect
 from django.template.loader import get_template
 import base64
 
+@login_required
 def cadastrar_trabalho(request):
     template_name = 'trabalhos/forms.html'
     context = {}
