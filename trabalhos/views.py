@@ -669,29 +669,29 @@ def confirmar_defesa(request, pk):
 
 
 def lista_bancas(request,key=None):
-    if (request.user.perfil.descricao == 'Professor'):
-        trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True, orientador_id=request.user.id)
-    if (request.user.perfil.descricao == 'Coordenador'):
-        trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
-    defesas = DefesaTrabalho.objects.all().filter(trabalho__banca__usuario=request.user.id)
+    
+    defesas = DefesaTrabalho.objects.all()
     template_name = 'trabalhos/lista_banca.html'
     context = {}
     list = []
     for defesa in defesas:
         
         lista = []
-        defesas_dic = {
-            'id': defesa.id,
-            'local': defesa.local,
-            'data': defesa.data,
-            'hora': defesa.hora,
-            'ano': defesa.ano,
-            'semestre': defesa.semestre,
-            'trabalho': defesa.trabalho,
-            'banca': lista,
-            'status': defesa.status,
-        }
-        list.append(defesas_dic)
+        avaliadores = defesa.trabalho.banca.all()
+        for avaliador in avaliadores:
+            if avaliador.id == request.user.id:
+                defesas_dic = {
+                    'id': defesa.id,
+                    'local': defesa.local,
+                    'data': defesa.data,
+                    'hora': defesa.hora,
+                    'ano': defesa.ano,
+                    'semestre': defesa.semestre,
+                    'trabalho': defesa.trabalho,
+                    'banca': lista,
+                    'status': defesa.status,
+                }
+                list.append(defesas_dic)
     context = {"trabalhos": list, "defesas": list}
     return  render(request, template_name, context)
    
