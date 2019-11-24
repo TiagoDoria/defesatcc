@@ -82,7 +82,7 @@ def detalhe(request, pk):
     template_name = 'trabalhos/detalhe.html'
 
     return render(request, template_name, context)
-@login_required
+
 def deletar_trabalho(request, pk):
     try:
         trabalhos = Trabalhos.objects.get(pk=pk)
@@ -91,7 +91,7 @@ def deletar_trabalho(request, pk):
     except:
         messages.error(request, ("Falha ao deletar"))
     return redirect('trabalhos:banca_pendente')
-@login_required
+
 def deletar_agendamento(request, pk):
     try:
         trabalhos = DefesaTrabalho.objects.filter(trabalho_id=pk)
@@ -101,7 +101,7 @@ def deletar_agendamento(request, pk):
         messages.error(request, ("Falha ao deletar"))
         
     return redirect('trabalhos:agendamentos_pendentes')
-@login_required
+
 class TrabalhoUpdateView(UpdateView):
     template_name = 'trabalhos/editar.html'
     model = Trabalhos
@@ -118,7 +118,7 @@ class TrabalhoUpdateView(UpdateView):
     def form_valid(self, form):
         messages.info(self.request, ("Trabalho atualizado com sucesso!"))
         return super(TrabalhoUpdateView, self).form_valid(form)
-@login_required
+
 class TrabalhoDetail(APIView):
     def get_object(self, pk):
         try:
@@ -130,7 +130,7 @@ class TrabalhoDetail(APIView):
         trabalho = self.get_object(pk)
         trabalho.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-@login_required
+
 class DefesaTrabablhoCreate(CreateView):
     template_name = 'trabalhos/agendamento_cadastro.html'
     model = DefesaTrabalho
@@ -147,7 +147,7 @@ class DefesaTrabablhoCreate(CreateView):
             banca = BancaTrabalho.objects.create(usuario = user,defesa_trabalho = self.object)
         messages.success(self.request, ("Agendamento realizado com sucesso"))
         return super(DefesaTrabablhoCreate, self).form_valid(form)
-@login_required
+
 def defesatrabalho(request, pk):
 
     def envia_email(defesa, user):
@@ -261,7 +261,7 @@ def defesatrabalho(request, pk):
 
     context = {'form': form, 'form_defesa': form_defesa, 'titulo': trabalho.titulo, 'bancas': menbros}
     return render(request, template_name, context)
-@login_required
+
 def banca_trabalho(request, pk):
 
     def envia_email(trabalho, user, template_name, subject):
@@ -353,7 +353,7 @@ def banca_trabalho(request, pk):
         return render(request, template_name, context)
     else:
         return redirect('core:home')
-@login_required
+
 def banca_pendente(request,key=None):
     if (request.user.perfil.descricao == 'Professor'):
         trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True, orientador_id=request.user.id)
@@ -383,7 +383,7 @@ def banca_pendente(request,key=None):
         list.append(defesas_dic)
     context = {"trabalhos": trabalhos, "defesas": list}
     return  render(request, template_name, context)
-@login_required
+
 def agendamento_pendente(request,key=None):
     trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True, orientador_id=request.user.id)
     if (request.user.perfil.descricao == 'Professor'):
@@ -413,7 +413,7 @@ def agendamento_pendente(request,key=None):
         list.append(defesas_dic)
     context = {"trabalhos": trabalhos, "defesas": list}
     return  render(request, template_name, context)   
-@login_required
+
 def defesas_confirmadas(request):
     trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True, orientador_id=request.user.id)
     list = []
@@ -443,7 +443,7 @@ def defesas_confirmadas(request):
         list.append(defesas_dic)
     context = {"trabalhos": trabalhos, "defesas": list}
     return  render(request, template_name, context)  
-@login_required
+
 def html_to_pdf_view_defesa(request):
     if(request.user.perfil.descricao == "Coordenador"):
         trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
@@ -483,7 +483,7 @@ def html_to_pdf_view_defesa(request):
         return response
     else:
         return redirect('core:home')
-@login_required
+
 def html_to_pdf_view_membro(request):
     if(request.user.perfil.descricao == "Professor"):
         trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
@@ -518,7 +518,7 @@ def html_to_pdf_view_membro(request):
         return response
     else:
         return redirect('core:home')
-@login_required    
+    
 def relatorio_defesa(request):
     trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
     defesas = DefesaTrabalho.objects.all()
@@ -548,7 +548,7 @@ def relatorio_defesa(request):
         return  render(request, template_name, context)
     else:
         return redirect('core:home')
-@login_required
+
 def relatorio_membro(request):
     trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True, orientador_id=request.user.id)
     defesas = DefesaTrabalho.objects.filter(trabalho__orientador = request.user.id)
@@ -573,7 +573,7 @@ def relatorio_membro(request):
         return  render(request, template_name, context)
     else:
         return redirect('core:home')
-@login_required    
+    
 def relatorio_quantidade(request):
     p = DefesaTrabalho.objects.values('periodo').order_by('periodo').annotate(num=Count('periodo'))
     template_name = 'trabalhos/relatorios/view_relatorio_quantidade.html'
@@ -584,7 +584,7 @@ def relatorio_quantidade(request):
         return  render(request, template_name, context)
     else:
         return redirect('core:home')
-@login_required    
+    
 def html_to_pdf_view_quantidade(request):
     if(request.user.perfil.descricao == "Coordenador"):
         p = DefesaTrabalho.objects.values('periodo').order_by('periodo').annotate(num=Count('periodo'))
@@ -605,7 +605,7 @@ def html_to_pdf_view_quantidade(request):
         return response
     else:
         return redirect('core:home')
-@login_required
+
 def relatorio_bancas(request):
     trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
     defesas = DefesaTrabalho.objects.values('trabalho__orientador').order_by('trabalho__orientador').annotate(num=Count('trabalho__orientador'))
@@ -619,7 +619,7 @@ def relatorio_bancas(request):
         return  render(request, template_name, context)
     else:
         return redirect('core:home')
-@login_required    
+    
 def relatorio_orientador(request, pk):
     trabalhos = Trabalhos.objects.all().filter(defesatrabalho__isnull=True)
     defesas = DefesaTrabalho.objects.filter(trabalho__orientador = pk)
@@ -644,7 +644,7 @@ def relatorio_orientador(request, pk):
         return  render(request, template_name, context)
     else:
         return redirect('trabalhos:home')
-@login_required
+
 def confirmar_defesa(request, pk):
     defesa = DefesaTrabalho.objects.all().get(pk=pk)
     banca = BancaTrabalho.objects.all().filter(trabalho_id=defesa.trabalho)
@@ -667,7 +667,7 @@ def confirmar_defesa(request, pk):
     messages.success(request, "Defesa confirmada com sucesso")
     return redirect('trabalhos:defesas_confirmadas')
 
-@login_required
+
 def lista_bancas(request,key=None):
     
     defesas = DefesaTrabalho.objects.all()
