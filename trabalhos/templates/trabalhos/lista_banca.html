@@ -271,7 +271,7 @@
                                     </tfoot>
                                     <tbody>
                                         {% for trabalho in defesas %}
-                                        {% if trabalho.status == 'agendado' %}
+                                   
                                         <tr>
                                            <td>{{ trabalho.trabalho.titulo }}</td>
                                             <td>{{ trabalho.trabalho.autor }}</td>
@@ -293,7 +293,6 @@
                                             </td>
                                             
                                         </tr>
-                                        {% endif %}
                                         {% endfor %}
                                         
                                     </tbody>
