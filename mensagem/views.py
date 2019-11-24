@@ -118,7 +118,7 @@ def confirmada_participacao_banca(request, key):
                     )
 
         return render(request, template_name_render)
-
+@login_required
 def rejeitada_participacao_banca(request, key):
 
     participacao_banca = get_object_or_404(EmailParticipacaoBanca, key=key)
