@@ -667,7 +667,7 @@ def confirmar_defesa(request, pk):
     messages.success(request, "Defesa confirmada com sucesso")
     return redirect('trabalhos:defesas_confirmadas')
 
-
+@login_required
 def lista_bancas(request,key=None):
     
     defesas = DefesaTrabalho.objects.all()
