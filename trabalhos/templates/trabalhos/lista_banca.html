@@ -258,6 +258,7 @@
                                             <th>Título</th>
                                             <th>Autor</th>
                                             <th>Orientador</th>
+                                            <th>Local/Data</th>
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
@@ -266,6 +267,7 @@
                                             <th>Título</th>
                                             <th>Autor</th>
                                             <th>Orientador</th>
+                                            <th>Local/Data</th>
                                             <th>Ações</th>
                                         </tr>
                                     </tfoot>
@@ -275,11 +277,8 @@
                                         <tr>
                                            <td>{{ trabalho.trabalho.titulo }}</td>
                                             <td>{{ trabalho.trabalho.autor }}</td>
-                                            {% if user.perfil.descricao == 'Professor' %}
                                             <td>{{ trabalho.trabalho.orientador }}</td>
-                                            {% endif %}
-                                           
-                                            <td>{{ trabalho.trabalho.co_orientador }}</td>
+                                            <td>{{ trabalho.local }} | {{ trabalho.data }} | {{ trabalho.hora }}</td>
                                             <td>
                                                 <a  href="{% url 'trabalhos:detalhe' trabalho.trabalho.id %}">
                                                     <i data-toggle="tooltip" data-placement="top" title="Visualizar" class="fas fa-folder-open"></i>
