@@ -148,6 +148,7 @@ class DefesaTrabablhoCreate(CreateView):
         messages.success(self.request, ("Agendamento realizado com sucesso"))
         return super(DefesaTrabablhoCreate, self).form_valid(form)
 
+@login_required
 def defesatrabalho(request, pk):
 
     def envia_email(defesa, user):
