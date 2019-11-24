@@ -16,11 +16,12 @@ from django.conf import  settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
-
+@login_required
 def post(request, pk, format=None):
     trabalho = Trabalhos.objects.get(pk=pk)
     key = generate_hash_key(request.user.username)
@@ -43,6 +44,7 @@ def post(request, pk, format=None):
     #return Response(status=status.HTTP_204_NO_CONTENT)
     return redirect('core:home')
 
+@login_required
 def confirmada_participacao_banca(request, key):
 
         participacao_banca = get_object_or_404(EmailParticipacaoBanca, key=key)
