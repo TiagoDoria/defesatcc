@@ -54,8 +54,8 @@ class DefesaTrabalhoForm(forms.ModelForm):
 
 		widgets = {
 			'local': forms.TextInput(attrs={'class': 'col-md-12 form-control form-control-user'}),		
-		 	'data': forms.DateInput(required=False,attrs={'class': 'datepicker form-control form-control-user', 'type': 'date'}),
-			'hora': forms.TextInput(required=False,attrs={'class': 'timepicker form-control form-control-user', 'type': 'time'}),
+		 	'data': forms.DateInput(attrs={'required': False,'class': 'datepicker form-control form-control-user', 'type': 'date'}),
+			'hora': forms.TextInput(attrs={'required': False,'class': 'timepicker form-control form-control-user', 'type': 'time'}),
       		'ano': forms.Select(choices=choices,attrs={'class': 'form-control form-control-user', 'type': 'number'}),
         	'semestre': forms.Select(choices=[('', '--Selecione--'),('1','1'),('2','2')],attrs={'class': 'form-control form-control-user','type': 'number'}),
 			'trabalho': forms.Select(attrs={'disabled': 'disabled','class': 'form-control form-control-user'})
