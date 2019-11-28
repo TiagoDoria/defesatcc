@@ -149,7 +149,7 @@ class DefesaTrabablhoCreate(CreateView):
         messages.success(self.request, ("Agendamento realizado com sucesso"))
         return super(DefesaTrabablhoCreate, self).form_valid(form)
 
-@login_required
+
 def defesatrabalho(request, pk):
 
     def envia_email(defesa, user):
@@ -675,7 +675,6 @@ def confirmar_defesa(request, pk):
     messages.success(request, "Defesa confirmada com sucesso")
     return redirect('trabalhos:defesas_confirmadas')
 
-@login_required
 def lista_bancas(request,key=None):
     
     defesas = DefesaTrabalho.objects.all()
