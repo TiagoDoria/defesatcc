@@ -33,6 +33,7 @@ from django.http import HttpResponseRedirect
 from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required
 import base64
+import pdb
 
 @login_required
 def cadastrar_trabalho(request):
@@ -369,7 +370,10 @@ def banca_pendente(request,key=None):
         lista = []
         for avaliador in avaliadores:
             lista.append(avaliador.name)
-
+        if str(defesa.data) == '0001-01-01':
+            defesa.data = 'À combinar'
+        if str(defesa.hora) == '00:00:00':
+            defesa.hora = 'À combinar'
         defesas_dic = {
 			'id': defesa.id,
 			'local': defesa.local,
@@ -399,7 +403,10 @@ def agendamento_pendente(request,key=None):
         lista = []
         for avaliador in avaliadores:
             lista.append(avaliador.name)
-
+        if str(defesa.data) == '0001-01-01':
+            defesa.data = 'À combinar'
+        if str(defesa.hora) == '00:00:00':
+            defesa.hora = 'À combinar'
         defesas_dic = {
 			'id': defesa.id,
 			'local': defesa.local,
@@ -676,7 +683,10 @@ def lista_bancas(request,key=None):
     context = {}
     list = []
     for defesa in defesas:
-        
+        if str(defesa.data) == '0001-01-01':
+            defesa.data = 'À combinar'
+        if str(defesa.hora) == '00:00:00':
+            defesa.hora = 'À combinar'
         lista = []
         avaliadores = defesa.trabalho.banca.all()
         for avaliador in avaliadores:
