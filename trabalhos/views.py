@@ -33,7 +33,6 @@ from django.http import HttpResponseRedirect
 from django.template.loader import get_template
 from django.contrib.auth.decorators import login_required
 import base64
-import pdb
 
 @login_required
 def cadastrar_trabalho(request):
@@ -72,7 +71,6 @@ def cadastrar_trabalho(request):
     context['form'] = form
     return render(request, template_name, context, status)
 
-@login_required
 def detalhe(request, pk):
     trabalhos = get_object_or_404(Trabalhos,pk=pk)
     
