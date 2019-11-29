@@ -20,7 +20,7 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-
+@login_required
 def post(request, pk, format=None):
     trabalho = Trabalhos.objects.get(pk=pk)
     key = generate_hash_key(request.user.username)
@@ -116,7 +116,6 @@ def confirmada_participacao_banca(request, key):
                     )
 
         return render(request, template_name_render)
-        
 def rejeitada_participacao_banca(request, key):
 
     participacao_banca = get_object_or_404(EmailParticipacaoBanca, key=key)
