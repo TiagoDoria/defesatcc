@@ -16,11 +16,11 @@ from django.conf import  settings
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth.decorators import login_required
+#from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-@login_required
+#@login_required
 def post(request, pk, format=None):
     trabalho = Trabalhos.objects.get(pk=pk)
     key = generate_hash_key(request.user.username)
